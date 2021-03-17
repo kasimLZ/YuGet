@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>64fd16e8-9668-49b3-ba39-aa9b0293ab77</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YuGet.Ui\YuGet.Ui.csproj" />
+  </ItemGroup>
+
+</Project>
