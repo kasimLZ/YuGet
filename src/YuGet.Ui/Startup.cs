@@ -15,12 +15,6 @@ namespace YuGet
 
         public static void UseMyBlazor(this IApplicationBuilder app)
         {
-            //app.UseStaticFiles(new StaticFileOptions { 
-
-            //});
-
-#if(DEBUG)
-#endif
             app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>

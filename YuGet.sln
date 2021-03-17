@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Database", "src\YuGet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Ui", "src\YuGet.Ui\YuGet.Ui.csproj", "{58C8663F-860E-4982-B146-E64EF3E9F1A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuGet.Base", "src\YuGet.Base\YuGet.Base.csproj", "{A85F3A34-E675-44FE-9116-7F72641DF19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Base", "src\YuGet.Base\YuGet.Base.csproj", "{A85F3A34-E675-44FE-9116-7F72641DF19B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuGet.Hosting", "src\YuGet.Hosting\YuGet.Hosting.csproj", "{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Hosting", "src\YuGet.Hosting\YuGet.Hosting.csproj", "{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
