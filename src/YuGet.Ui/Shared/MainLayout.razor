@@ -1,14 +1,12 @@
 @inherits LayoutComponentBase
 @using YuGet.Ui.Components.Layout
 
-<div class="main">
-	<div class="top-row px-4">
-		<Header />
-		@*<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
-	</div>
+<nav class="navbar navbar-inverse" role="navigation">
+	<Header />
+</nav>
 
-	<div class="content px-4">
-		@Body
-	</div>
-</div>
+@Body
 
+<footer class="footer">
+	<Footer />
+</footer>
