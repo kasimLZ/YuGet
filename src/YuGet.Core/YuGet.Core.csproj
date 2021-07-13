@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="NuGet.Packaging" Version="5.10.0" />
+    <PackageReference Include="NuGet.Protocol" Version="5.10.0" />
+    <PackageReference Include="System.Reflection.Metadata" Version="1.6.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.MySQL\YuGet.Database.MySQL.csproj" />
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.PostgreSQL\YuGet.Database.PostgreSQL.csproj" />
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.SQLite\YuGet.Database.SQLite.csproj" />
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.SQLServer\YuGet.Database.SQLServer.csproj" />
+    <ProjectReference Include="..\YuGet.Protocol\YuGet.Protocol.csproj" />
+    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Abstractions\YuGet.Storage.Abstractions.csproj" />
+    <ProjectReference Include="..\YuGet.Storage\Yuget.Storage.Aliyun\Yuget.Storage.Aliyun.csproj" />
+    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.AWS\YuGet.Storage.AWS.csproj" />
+    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj" />
+  </ItemGroup>
+</Project>

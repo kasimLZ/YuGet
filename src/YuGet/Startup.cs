@@ -19,6 +19,7 @@ namespace YuGet
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddDbcontext
             services.AddMyBlazor();
         }
 
@@ -33,49 +34,49 @@ namespace YuGet
 
             app.UseMyBlazor();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/files", async context =>
-                {
-                    var options = context.RequestServices.GetRequiredService<IOptions<StaticFileOptions>>().Value;
+     //       app.UseEndpoints(endpoints =>
+     //       {
+     //           endpoints.MapGet("/files", async context =>
+     //           {
+     //               var options = context.RequestServices.GetRequiredService<IOptions<StaticFileOptions>>().Value;
 
-                    string PrintPhysicalPath(IFileProvider provider)
-					{
-                        if (provider is CompositeFileProvider Composite) 
-                        {
-                            var sb = new StringBuilder();
-                            foreach(var inner in Composite.FileProviders)
-							{
-                                sb.Append(PrintPhysicalPath(inner));
-                            }
-                            return sb.ToString();
-                        }
+     //               string PrintPhysicalPath(IFileProvider provider)
+					//{
+     //                   if (provider is CompositeFileProvider Composite) 
+     //                   {
+     //                       var sb = new StringBuilder();
+     //                       foreach(var inner in Composite.FileProviders)
+					//		{
+     //                           sb.Append(PrintPhysicalPath(inner));
+     //                       }
+     //                       return sb.ToString();
+     //                   }
 
-						else if (provider.GetType().Name == "StaticWebAssetsFileProvider")
-						{
+					//	else if (provider.GetType().Name == "StaticWebAssetsFileProvider")
+					//	{
 
-                            try
-							{
-                                PathString p = (PathString)provider.GetType().GetProperty("BasePath").GetValue(provider);
-                                PhysicalFileProvider physical = (PhysicalFileProvider)provider.GetType().GetProperty("InnerProvider").GetValue(provider);
+     //                       try
+					//		{
+     //                           PathString p = (PathString)provider.GetType().GetProperty("BasePath").GetValue(provider);
+     //                           PhysicalFileProvider physical = (PhysicalFileProvider)provider.GetType().GetProperty("InnerProvider").GetValue(provider);
 
-                                return $"<tr><td>{p}</td><td>{physical.Root}</td></tr>";
-                            }
-                            catch
-							{
-                                return "rror";
-							}
-						}
-                        else if (provider is PhysicalFileProvider physicalFile) 
-                        {
-                            return $"<tr><td></td><td>{physicalFile.Root}</td></tr>";
-                        }
-                        return $"<tr><td>{provider.GetType().FullName}</td></tr>";
-                    }
+     //                           return $"<tr><td>{p}</td><td>{physical.Root}</td></tr>";
+     //                       }
+     //                       catch
+					//		{
+     //                           return "rror";
+					//		}
+					//	}
+     //                   else if (provider is PhysicalFileProvider physicalFile) 
+     //                   {
+     //                       return $"<tr><td></td><td>{physicalFile.Root}</td></tr>";
+     //                   }
+     //                   return $"<tr><td>{provider.GetType().FullName}</td></tr>";
+     //               }
 
-                    await context.Response.WriteAsync("<table><tr><th>name</th><th>path</th></tr>" + PrintPhysicalPath(options.FileProvider) + "</table>");
-                });
-            });
+     //               await context.Response.WriteAsync("<table><tr><th>name</th><th>path</th></tr>" + PrintPhysicalPath(options.FileProvider) + "</table>");
+     //           });
+     //       });
         }
     }
 }
