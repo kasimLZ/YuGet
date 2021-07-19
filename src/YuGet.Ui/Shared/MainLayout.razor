@@ -1,12 +1,54 @@
 @inherits LayoutComponentBase
-@using YuGet.Ui.Components.Layout
 
-<nav class="navbar navbar-inverse" role="navigation">
-	<Header />
-</nav>
+<MatAnchorUtils></MatAnchorUtils>
 
-@Body
+<MatAppBarContainer>
+    <MatAppBar Class="navbar">
+        <MatAppBarRow>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.Start" Style="justify-content: flex-end">
+                <NavLink href="/">
+                    <img width="94" height="29" alt="NuGet home" src="/_content/YuGet.Ui/img/logo-header.png">
+                </NavLink>
+            </MatAppBarSection>
+            <MatAppBarSection Style="width: 600px">
+               <NavMenu></NavMenu>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End"  Style="justify-content: flex-start">
+                <NavLink herf="">Sign In</NavLink>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+    <MatAppBarContent>
+        @if(ShowTitle){
+             <h1>ssssss</h1>
+        }
+       
+        <CascadingValue Value="ShowTitle" Name="Title">
+             <section class="main">
+                @Body
+            </section>
+        </CascadingValue>
+       <ul>
+        @foreach(var log in logs)
+        {
+            <li>@log  @ShowTitle</li>
+        }
+        </ul>
+    </MatAppBarContent>
+</MatAppBarContainer>
 
-<footer class="footer">
-	<Footer />
-</footer>
+
+@code{
+
+    public bool ShowTitle { get; set; } = false;
+
+    public List<string> logs { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+
+        logs.Add(DateTime.Now.ToLongTimeString());
+
+        base.OnParametersSet();
+    }
+}

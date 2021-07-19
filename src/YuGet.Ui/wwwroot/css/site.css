@@ -1,1 +1,13 @@
-﻿
+﻿body{
+	margin:0;
+	padding:0;
+}
+
+.navbar {
+	background-color: #004880;
+}
+
+.main {
+	width: 1140px;
+	margin: auto;
+}

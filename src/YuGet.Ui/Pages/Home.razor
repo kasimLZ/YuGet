@@ -1,7 +1,35 @@
 ﻿@page "/"
 
-<h3>Home</h3>
+<div class="navbar" style="width: 100vw; position: absolute; left: 0" >
+    <div class="main">
+        dfgsdfgsdgf
+    </div>
+</div>
+
+<div style="padding: 100px">
+    <input type="button" value="click" @onclick="AAAA" />
+</div>
+@if (ABC)
+{
+    <h1>can you see me</h1>
+}
+
 
 @code {
 
+    [CascadingParameter(Name = "Title")]
+    public bool ShowTitle { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ShowTitle = true;
+    }
+
+    public bool ABC { get; set; }
+
+    public void AAAA()
+    {
+        ABC = !ABC;
+        ShowTitle = !ShowTitle;
+    }
 }

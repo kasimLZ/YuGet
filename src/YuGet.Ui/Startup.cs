@@ -1,6 +1,6 @@
+using MatBlazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using YuGet.Ui.Data;
 
 namespace YuGet
 {
@@ -8,9 +8,9 @@ namespace YuGet
     {
         public static void AddMyBlazor(this IServiceCollection services)
         {
+            services.AddMatBlazor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
         }
 
         public static void UseMyBlazor(this IApplicationBuilder app)

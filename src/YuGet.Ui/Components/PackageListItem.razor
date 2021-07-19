@@ -1,0 +1,18 @@
+﻿
+@using YuGet.Database.Models;
+
+<article>
+    <div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell" style="background: #0f0">123</div>
+                <div class="mat-layout-grid-cell" style="background: #f00">434</div>
+                <div class="mat-layout-grid-cell" style="background: #00f">545</div>
+            </div>
+        </div>
+</article>
+
+@code {
+
+    [Parameter]
+    public Package Package { get; set; }
+}

@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet", "src\YuGet\YuGet.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Ui", "src\YuGet.Ui\YuGet.Ui.csproj", "{58C8663F-860E-4982-B146-E64EF3E9F1A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Hosting", "src\YuGet.Hosting\YuGet.Hosting.csproj", "{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Protocol", "src\YuGet.Protocol\YuGet.Protocol.csproj", "{E135A5B9-0144-4F02-A1B5-9E3D2CA828D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YuGet.Database", "YuGet.Database", "{427D8C31-E780-4717-81A6-B0E79D8277C2}"
@@ -29,9 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Storage.Abstractions"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuget.Storage.Aliyun", "src\YuGet.Storage\Yuget.Storage.Aliyun\Yuget.Storage.Aliyun.csproj", "{DA14F24C-1EB9-4852-BA87-090072B176A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuGet.Storage.AWS", "src\YuGet.Storage\YuGet.Storage.AWS\YuGet.Storage.AWS.csproj", "{881D7CA1-D65B-4EBC-AD01-E78EDEBBBD35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Storage.AWS", "src\YuGet.Storage\YuGet.Storage.AWS\YuGet.Storage.AWS.csproj", "{881D7CA1-D65B-4EBC-AD01-E78EDEBBBD35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuGet.Storage.Azure", "src\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj", "{7060565B-7D5F-4695-B8CD-4340D1733E0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Storage.Azure", "src\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj", "{7060565B-7D5F-4695-B8CD-4340D1733E0C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuGet.Core", "src\YuGet.Core\YuGet.Core.csproj", "{5D327E9B-35F5-4023-BC3B-2802F5D16293}"
 EndProject
@@ -69,18 +67,6 @@ Global
 		{58C8663F-860E-4982-B146-E64EF3E9F1A6}.Release|x64.Build.0 = Release|Any CPU
 		{58C8663F-860E-4982-B146-E64EF3E9F1A6}.Release|x86.ActiveCfg = Release|Any CPU
 		{58C8663F-860E-4982-B146-E64EF3E9F1A6}.Release|x86.Build.0 = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|x64.Build.0 = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Debug|x86.Build.0 = Debug|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|x64.ActiveCfg = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|x64.Build.0 = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|x86.ActiveCfg = Release|Any CPU
-		{8A7AFE3F-67E1-4C41-88CD-49B465A8E802}.Release|x86.Build.0 = Release|Any CPU
 		{E135A5B9-0144-4F02-A1B5-9E3D2CA828D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E135A5B9-0144-4F02-A1B5-9E3D2CA828D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E135A5B9-0144-4F02-A1B5-9E3D2CA828D8}.Debug|x64.ActiveCfg = Debug|Any CPU

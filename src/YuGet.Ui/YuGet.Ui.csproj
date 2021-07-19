@@ -5,4 +5,12 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MatBlazor" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

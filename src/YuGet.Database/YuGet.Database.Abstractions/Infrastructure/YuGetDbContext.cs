@@ -19,6 +19,11 @@ namespace YuGet.Database.Abstractions.Infrastructure
 		public virtual async Task RunMigrationsAsync(CancellationToken cancellationToken)
 			=> await Database.MigrateAsync(cancellationToken);
 
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseLazyLoadingProxies();
+		}
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.SetDefualtTypeConversion<Snid, ulong>(a => a, b => b);
