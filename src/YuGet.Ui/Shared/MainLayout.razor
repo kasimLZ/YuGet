@@ -11,7 +11,7 @@
                 </NavLink>
             </MatAppBarSection>
             <MatAppBarSection Style="width: 600px">
-               <NavMenu></NavMenu>
+               <NavMenu />
             </MatAppBarSection>
             <MatAppBarSection Align="@MatAppBarSectionAlign.End"  Style="justify-content: flex-start">
                 <NavLink herf="">Sign In</NavLink>
@@ -19,36 +19,28 @@
         </MatAppBarRow>
     </MatAppBar>
     <MatAppBarContent>
-        @if(ShowTitle){
-             <h1>ssssss</h1>
-        }
-       
-        <CascadingValue Value="ShowTitle" Name="Title">
-             <section class="main">
+
+        <CascadingValue Value="layoutService" Name="layoutService">
+            @if (layoutService.SearchBarVisible)
+            {
+                <SearchBar />
+            }
+            <section class="main">
                 @Body
             </section>
         </CascadingValue>
-       <ul>
-        @foreach(var log in logs)
-        {
-            <li>@log  @ShowTitle</li>
-        }
-        </ul>
     </MatAppBarContent>
 </MatAppBarContainer>
 
 
 @code{
+    private LayoutStatusService layoutService;
 
-    public bool ShowTitle { get; set; } = false;
-
-    public List<string> logs { get; set; } = new();
-
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
+        layoutService = new LayoutStatusService(StateHasChanged);
 
-        logs.Add(DateTime.Now.ToLongTimeString());
-
-        base.OnParametersSet();
+        base.OnInitialized();
     }
+
 }

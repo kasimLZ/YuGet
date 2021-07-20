@@ -1,0 +1,9 @@
+﻿<div class="navbar" style="width: 100%; display: flex; justify-content: center">
+    <input type="text" @bind-value="value" />
+    <button style="background-color: #d87e00; border-color: #d87e00">
+        <MatIcon Icon="search"></MatIcon>
+   </button>
+</div>
+@code {
+    public string value { get; set; }
+}

@@ -1,35 +1,21 @@
 ﻿@page "/"
 
-<div class="navbar" style="width: 100vw; position: absolute; left: 0" >
-    <div class="main">
-        dfgsdfgsdgf
-    </div>
-</div>
 
-<div style="padding: 100px">
-    <input type="button" value="click" @onclick="AAAA" />
-</div>
-@if (ABC)
-{
-    <h1>can you see me</h1>
-}
-
+ssss
 
 @code {
 
-    [CascadingParameter(Name = "Title")]
-    public bool ShowTitle { get; set; }
+    [CascadingParameter(Name = "layoutService")]
+    public LayoutStatusService layoutService { get; set; }
 
     protected override void OnInitialized()
     {
-        ShowTitle = true;
+        layoutService.SearchBarVisible = true;
+        layoutService.LayoutStatusChange();
     }
 
-    public bool ABC { get; set; }
-
-    public void AAAA()
+    protected override void OnAfterRender(bool first)
     {
-        ABC = !ABC;
-        ShowTitle = !ShowTitle;
+        
     }
 }

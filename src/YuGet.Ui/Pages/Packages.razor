@@ -1,8 +1,21 @@
 ﻿@page "/packages"
+@inherits PackagesComponent
 @using YuGet.Ui.Components;
 
 <h1>There are 247,521 packages</h1>
 
 <div class="package-list">
-    <PackageListItem />
+    @foreach(var item in PackageList)
+    {
+        <PackageListItem />
+    }
+</div>
+<div style="display: flex; justify-content: center">
+    <MatIconButton Icon="first_page" ></MatIconButton>
+<MatIconButton Icon="chevron_left" ></MatIconButton>
+
+<div style="display: inline-block; line-height: 50px; font-size: 23px;vertical-align: bottom; color: gray; margin: 0 15px;">|</div>
+
+<MatIconButton Icon="chevron_right" ></MatIconButton>
+<MatIconButton Icon="last_page" ></MatIconButton>
 </div>
