@@ -13,7 +13,7 @@ namespace YuGet.Database.Models
         public string Moniker { get; set; }
 
         [ForeignKey("Package")]
-        public Snid PackageId { get; set; }
+        public Guid PackageId { get; set; }
 
         public virtual Package Package { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace YuGet.Database.Abstractions.Options
 {
-	internal sealed class YuGetDatabaseOption
+	public sealed class YuGetDatabaseOption
 	{
 		public const string SectionName = "YuGet";
 

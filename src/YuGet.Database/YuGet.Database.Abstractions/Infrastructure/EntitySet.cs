@@ -13,7 +13,7 @@ namespace YuGet.Database.Abstractions.Infrastructure
 		/// Primary key
 		/// </summary>
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-		public Snid Key { get; set; }
+		public Guid Id { get; set; }
 
 	}
 }

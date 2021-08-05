@@ -23,18 +23,18 @@ namespace YuGet.Database.Abstractions.Infrastructure
 		/// <inheritdoc/>
 		public virtual void Add(TEntity entity)
 		{
-			entity.Key = Snid.NewID();
+			entity.Id = Guid.NewGuid();
 			dbset.Add(entity);
 		}
 
 		/// <inheritdoc/>
-		public TEntity GetById(Snid key) => dbset.Find(new object[] { key });
+		public TEntity GetById(Guid Id) => dbset.Find(new object[] { Id });
 
 		/// <inheritdoc/>
 		public IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression) => dbset.Where(expression ?? (a => true));
 
 		/// <inheritdoc/>
-		public void Remove(Snid key) => Remove(GetById(key));
+		public void Remove(Guid Id) => Remove(GetById(Id));
 
 		/// <inheritdoc/>
 		public void Remove(TEntity item) => dbset.Remove(item);
@@ -43,9 +43,9 @@ namespace YuGet.Database.Abstractions.Infrastructure
 		public void Remove(Expression<Func<TEntity, bool>> where) => Query(where).ToList().ForEach(a => Remove(a));
 
 		/// <inheritdoc/>
-		public void Save(Snid? key, TEntity entity)
+		public void Save(Guid? Id, TEntity entity)
 		{
-			if (!key.HasValue)
+			if (!Id.HasValue)
 			{
 				Add(entity);
 				return;

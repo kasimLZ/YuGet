@@ -13,7 +13,7 @@ namespace YuGet.Database.Models
     public class Package : EntitySet
 	{
         [Required]
-        public string Id { get; set; }
+        public string Key { get; set; }
 
         [MaxLength(256)]
         public string Title { get; set; }

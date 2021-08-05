@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using YuGet.Database.Abstractions.Infrastructure;
 
 namespace YuGet.Database.SQLServer
 {
-	internal class SQLServerDbContext : YuGetDbContext<SQLServerDbContext>, IYuGetDbContext
+	internal sealed class SQLServerDbContext : YuGetDbContext<SQLServerDbContext>, IYuGetDbContext
 	{
+		public SQLServerDbContext(DbContextOptions<SQLServerDbContext> options): base(options) { }
+
 		/// <summary>
 		/// The SQL Server error code for when a unique contraint is violated.
 		/// </summary>

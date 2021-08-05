@@ -9,7 +9,7 @@ namespace YuGet.Database.Models
 	[Index("Id")]
 	public class PackageDependency : EntitySet
 	{
-		public string Id { get; set; }	
+		public string Key { get; set; }	
 
 		[MaxLength(256)]
 		public string VersionRange { get; set; }
@@ -18,7 +18,7 @@ namespace YuGet.Database.Models
 		public string TargetFramework { get; set; }
 
 		[ForeignKey("Package")]
-		public Snid PackageId { get; set; }
+		public Guid PackageId { get; set; }
 
 		public virtual Package Package { get; set; }
 	}

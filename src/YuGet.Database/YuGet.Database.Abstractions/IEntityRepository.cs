@@ -19,7 +19,7 @@ namespace YuGet.Database
 		/// Physical delete record
 		/// </summary>
 		/// <param name="key">ID</param>
-		void Remove(Snid key);
+		void Remove(Guid Id);
 
 		/// <summary>
 		/// Physical delete record
@@ -45,14 +45,14 @@ namespace YuGet.Database
 		/// </summary>
 		/// <param name="key">Index</param>
 		/// <returns>Entity</returns>
-		TEntity GetById(Snid key);
+		TEntity GetById(Guid Id);
 
 		/// <summary>
 		/// Save general method
 		/// </summary>
 		/// <param name="key">Index, Nullable, When it is empty, it is saved. When there is value, it is modified.</param>
 		/// <param name="entity">Record</param>
-		void Save(Snid? key, TEntity entity);
+		void Save(Guid? Id, TEntity entity);
 
 		/// <summary>
 		/// Update data

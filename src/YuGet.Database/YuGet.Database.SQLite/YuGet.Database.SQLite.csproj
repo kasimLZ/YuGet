@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
   </ItemGroup>
   
