@@ -5,7 +5,7 @@
 		/// <summary>
 		/// Base time，1970-1-1 0:0:0 for UTC
 		/// </summary>
-		private static readonly DateTime UTCZERO = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static readonly DateTime UTCZERO = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		/// <summary>
 		/// Try to generate a timestamp.

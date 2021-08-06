@@ -14,7 +14,7 @@ namespace YuGet
 {
 	public static class ServiceCollectionExtensions
 	{
-		private static readonly Dictionary<Type, IYuGetDbContextProvider> dbContextProviders = new Dictionary<Type, IYuGetDbContextProvider>();
+		private static readonly Dictionary<Type, IYuGetDbContextProvider> dbContextProviders = new();
 		 
 		public static IServiceCollection AddYuGetDbContextCore(this IServiceCollection services) 
 		{
@@ -36,8 +36,6 @@ namespace YuGet
 			using var provider = services.BuildServiceProvider();
 
 			var option = provider.GetRequiredService<IOptionsSnapshot<YuGetDatabaseOption>>();
-
-			Console.WriteLine(option.Value.DatabaseType + "============" + option.Value.ConnectString);
 
 			var dbProvider = dbContextProviders.Values.FirstOrDefault(a => a.DatabaseName.Equals(option.Value.DatabaseType, StringComparison.OrdinalIgnoreCase));
 

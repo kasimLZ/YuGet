@@ -13,16 +13,16 @@ namespace System
 
 		private ulong Value { get; set; }
 
-		private static readonly SnidScope Default = new SnidScope();
+		private static readonly SnidScope Default = new();
 
-		private static readonly Dictionary<string, SnidScope> ScopeCollection = new Dictionary<string, SnidScope>();
+		private static readonly Dictionary<string, SnidScope> ScopeCollection = new();
 
 		/// <inheritdoc cref="SnidScope(ushort, byte, byte, DateTime?)"/>
 		/// <param name="Name">The domain name, once occupied, cannot be replaced or modified unless the application is restarted. Please note</param>
 		public static void AddScope(string Name, ushort workerId = 0, byte workerIdBits = 2, byte sequenceBits = 8, DateTime? twepoch = null)
 		{
 			if (ScopeCollection.ContainsKey(Name))
-				throw new Exception("The current configuration domain already exists and cannot be replaced or modified.");
+				throw new("The current configuration domain already exists and cannot be replaced or modified.");
 			ScopeCollection.Add(Name, new SnidScope(workerId, workerIdBits, sequenceBits, twepoch));
 		}
 
@@ -75,13 +75,13 @@ namespace System
 				{
 					//If the current timestamp is smaller than the last time the ID was generated, 
 					//an exception is thrown because there is no guarantee that the currently generated ID was not generated before.
-					throw new Exception($"Clock moved backwards.  Refusing to generate id for { scope.LastTimestamp - timestamp } milliseconds");
+					throw new($"Clock moved backwards.  Refusing to generate id for {scope.LastTimestamp - timestamp} milliseconds");
 				}
 				scope.LastTimestamp = timestamp; //Save the current timestamp as the timestamp of the last generated ID
-				
+
 			}
 
-			return new Snid((timestamp - scope.Twepoch) << scope.TimestampLeftShift, (ulong)scope.WorkerId << scope.WorkerIdShift, scope.Sequence);
+			return new((timestamp - scope.Twepoch) << scope.TimestampLeftShift, (ulong)scope.WorkerId << scope.WorkerIdShift, scope.Sequence);
 		}
 
 		/// <summary>
@@ -97,7 +97,7 @@ namespace System
 			return timestamp;
 		}
 
-		public override bool Equals(object obj) 
+		public override bool Equals(object obj)
 		{
 			if (obj is Snid id)
 			{
@@ -107,14 +107,14 @@ namespace System
 		}
 
 		public override string ToString() => Value.ToString();
-		
+
 		public override int GetHashCode() => base.GetHashCode();
-		
+
 		public static bool operator ==(Snid a, Snid b) => a.Value == b.Value;
 		public static bool operator !=(Snid a, Snid b) => a.Value != b.Value;
 
-		public static implicit operator ulong (Snid id) => id.Value;
-		public static implicit operator Snid(ulong id) => new Snid(id);
+		public static implicit operator ulong(Snid id) => id.Value;
+		public static implicit operator Snid(ulong id) => new(id);
 
 	}
 }
