@@ -14,6 +14,11 @@ namespace YuGet.Database.SQLServer
 			services.AddDbContext<IYuGetDbContext, SQLServerDbContext>(x => {
 				x.UseSqlServer(option.ConnectString);
 			});
+
+			//services.AddDbContext
+
 		}
+
+		delegate T2 sssss<in T1, out T2>(T1 t1);
 	}
 }
