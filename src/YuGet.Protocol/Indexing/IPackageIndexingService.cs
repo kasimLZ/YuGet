@@ -2,7 +2,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     /// <summary>
     /// The result of attempting to index a package.

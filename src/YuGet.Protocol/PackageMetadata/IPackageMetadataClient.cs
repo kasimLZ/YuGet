@@ -1,16 +1,15 @@
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base.Models;
-using NuGet.Versioning;
+using YuGet.Core.Models.Abstraction;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
-    /// <summary>
-    /// The Package Metadata client, used to fetch packages' metadata.
-    /// 
-    /// See https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
-    /// </summary>
-    public interface IPackageMetadataClient
+	/// <summary>
+	/// The Package Metadata client, used to fetch packages' metadata.
+	/// 
+	/// See https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
+	/// </summary>
+	public interface IPackageMetadataClient
     {
         /// <summary>
         /// Attempt to get a package's registration index, if it exists.

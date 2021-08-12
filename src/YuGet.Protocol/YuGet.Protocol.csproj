@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
+    <ProjectReference Include="..\YuGet.Database\YuGet.Database.Models\YuGet.Database.Models.csproj" />
   </ItemGroup>
   
 </Project>

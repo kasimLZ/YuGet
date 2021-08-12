@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base.Models;
+using YuGet.Core.Models.Abstraction;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     /// <summary>
     /// The client used to search for packages.

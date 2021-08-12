@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base.Models;
+using YuGet.Core.Models.Abstraction;
 
-namespace YuGet.Base.Catalog
+namespace YuGet.Core.Catalog
 {
     /// <summary>
     /// An interface which allows custom processing of catalog leaves. This interface should be implemented when the

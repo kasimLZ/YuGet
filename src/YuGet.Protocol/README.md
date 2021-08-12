@@ -1,1 +1,1 @@
-# YuGet.Protocol
+# YuGet.Core

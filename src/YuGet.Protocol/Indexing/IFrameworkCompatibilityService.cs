@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     /// <summary>
     /// Used to determine the compatibility matrix between frameworks.

@@ -1,6 +1,6 @@
 using NuGet.Versioning;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     /// <summary>
     /// Used to create URLs to resources in the NuGet protocol.

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using NuGet.Versioning;
 using YuGet.Database.Models;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     /// <summary>
     /// The "source of truth" for packages' state. Packages' content

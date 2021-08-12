@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Versioning;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     public interface IPackageDeletionService
     {

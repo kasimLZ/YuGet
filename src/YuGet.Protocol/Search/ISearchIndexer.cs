@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YuGet.Database.Models;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
     public interface ISearchIndexer
     {

@@ -1,15 +1,15 @@
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base.Models;
+using YuGet.Core.Models.Abstraction;
 
-namespace YuGet.Base
+namespace YuGet.Core
 {
-    /// <summary>
-    /// The client used to search for packages.
-    /// 
-    /// See https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
-    /// </summary>
-    public interface ISearchClient
+	/// <summary>
+	/// The client used to search for packages.
+	/// 
+	/// See https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
+	/// </summary>
+	public interface ISearchClient
     {
         /// <summary>
         /// Perform a search query.
