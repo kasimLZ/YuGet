@@ -1,4 +1,3 @@
-using MatBlazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +7,6 @@ namespace YuGet
     {
         public static void AddMyBlazor(this IServiceCollection services)
         {
-            services.AddMatBlazor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
         }

@@ -1,0 +1,49 @@
+﻿@page "/upload"
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" style="color: #000">
+            @*<svg width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" style="color: #000; display:inline-block">
+                <use xlink:href="/_content/YuGet.Ui/icons/bootstrap-icons.svg#persion"></use>
+            </svg>*@
+            <RadzenIcon Icon="person_outline" />
+        </li>
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+</nav>
+
+<p>
+    Your package file will be uploaded and on the NuGet Gallery server (https://www.nuget.org).
+</p>
+<p>
+    To learn more about authoring great packages, view our Best Practices page.
+</p>
+
+<h2 data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample" class="collapsed">
+    Upload
+</h2>
+
+<div class="collapse show" id="collapseExample">
+    <div class="row">
+        <div class="col input-group input-group-sm">
+            <input type="text" class="form-control" placeholder="Browse or Drop files to select a package (.nupkg) or symbols package (.snupkg)..." />
+            <button class="btn btn-primary" type="button">
+                Browser
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-secondary" role="alert">
+                You had an upload in progress. You can continue it here or cancel to restart.
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Verify</h2>
+
+@code {
+
+}

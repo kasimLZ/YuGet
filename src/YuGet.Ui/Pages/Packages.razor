@@ -2,7 +2,7 @@
 @inherits PackagesComponent
 @using YuGet.Ui.Components;
 
-<h1>There are 247,521 packages</h1>
+<h1>There are @TotalCount.ToString("N0") packages</h1>
 
 <div class="package-list">
     @foreach(var item in PackageList)
@@ -10,7 +10,7 @@
         <PackageListItem />
     }
 </div>
-<div style="display: flex; justify-content: center">
+@*<div style="display: flex; justify-content: center">
     <MatIconButton Icon="first_page" ></MatIconButton>
 <MatIconButton Icon="chevron_left" ></MatIconButton>
 
@@ -18,4 +18,6 @@
 
 <MatIconButton Icon="chevron_right" ></MatIconButton>
 <MatIconButton Icon="last_page" ></MatIconButton>
-</div>
+</div>*@
+
+ <RadzenPager class="text-decoration-none" Count="TotalCount" PageSize="PageSize" PageNumbersCount="10"  />

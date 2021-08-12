@@ -1,39 +1,35 @@
 @inherits LayoutComponentBase
-
-<MatAnchorUtils></MatAnchorUtils>
-
-<MatAppBarContainer>
-    <MatAppBar Class="navbar">
-        <MatAppBarRow>
-            <MatAppBarSection Align="@MatAppBarSectionAlign.Start" Style="justify-content: flex-end">
-                <NavLink href="/">
+<header class="p-2 navbar">
+    <div class="container">
+        <div class="row flex-grow-1">
+            <div class="col-2 d-flex flex-row flex-grow-1 justify-content-end align-items-center">
+                <a href="/" style="height: 32px; padding: 1px 0;">
                     <img width="94" height="29" alt="NuGet home" src="/_content/YuGet.Ui/img/logo-header.png">
-                </NavLink>
-            </MatAppBarSection>
-            <MatAppBarSection Style="width: 600px">
-               <NavMenu />
-            </MatAppBarSection>
-            <MatAppBarSection Align="@MatAppBarSectionAlign.End"  Style="justify-content: flex-start">
-                <NavLink herf="">Sign In</NavLink>
-            </MatAppBarSection>
-        </MatAppBarRow>
-    </MatAppBar>
-    <MatAppBarContent>
+                </a>
+            </div>
+          
+            <div class="col-8 d-flex flex-grow-1 align-items-center">
+                 <NavMenu />
+            </div>
+           
+            <div class="col-2 d-flex flex-grow-1 align-items-center">
+                 <Profile />
+            </div>
+        </div>
+    </div>
+</header>
+<CascadingValue Value="layoutService" Name="layoutService">
 
-        <CascadingValue Value="layoutService" Name="layoutService">
-            @if (layoutService.SearchBarVisible)
-            {
-                <SearchBar />
-            }
-            <section class="main">
-                @Body
-            </section>
-        </CascadingValue>
-    </MatAppBarContent>
-</MatAppBarContainer>
+    @if (layoutService.SearchBarVisible)
+    {
+        <SearchBar />
+    }
+    <section class="main">
+    @Body
+    </section>
+ </CascadingValue>
 
-
-@code{
+@code {
     private LayoutStatusService layoutService;
 
     protected override void OnInitialized()
