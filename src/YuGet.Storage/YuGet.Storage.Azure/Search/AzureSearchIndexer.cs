@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
 using Microsoft.Extensions.Logging;
 using YuGet.Database.Models;
 using YuGet.Core;
@@ -29,12 +28,9 @@ namespace YuGet.Storage.Azure
 
         public async Task IndexAsync(Package package, CancellationToken cancellationToken)
         {
-            var packages = await _packages.FindAsync(package.Id, includeUnlisted: false, cancellationToken);
+            var packages = await _packages.FindAsync(package.Key, includeUnlisted: false, cancellationToken);
 
-            var actions = _actionBuilder.UpdatePackage(
-                new PackageRegistration(
-                    package.Id,
-                    packages));
+            var actions = _actionBuilder.UpdatePackage(new PackageRegistration(package.Key, packages));
 
             await _batchIndexer.IndexAsync(actions, cancellationToken);
         }

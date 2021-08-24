@@ -1,22 +1,23 @@
+using Microsoft.Azure.Cosmos.Table;
+using Newtonsoft.Json;
+using NuGet.Versioning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Cosmos.Table;
-using Newtonsoft.Json;
-using NuGet.Versioning;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core;
+using YuGet.Core.Models.Abstraction;
+using YuGet.Storage.Azure.Models;
 
 namespace YuGet.Storage.Azure
 {
-    public class TableSearchService : ISearchService
+	public class TableSearchService : ISearchService
     {
         private const string TableName = "Packages";
 
         private static readonly Task<DependentsResponse> EmptyDependentsResponseTask =
-            Task.FromResult(new DependentsResponse
+            Task.FromResult<DependentsResponse>(new AzureDependentsResponse
             {
                 TotalHits = 0,
                 Data = new List<DependentResult>()
@@ -45,7 +46,7 @@ namespace YuGet.Storage.Azure
                 request.IncludeSemVer2,
                 cancellationToken);
 
-            return new SearchResponse
+            return new AzureSearchResponse
             {
                 TotalHits = results.Count,
                 Data = results.Select(ToSearchResult).ToList()
@@ -64,7 +65,7 @@ namespace YuGet.Storage.Azure
                 request.IncludeSemVer2,
                 cancellationToken);
 
-            return new AutocompleteResponse
+            return new AzureAutocompleteResponse
             {
                 TotalHits = results.Count,
                 Data = results.Select(ToAutocompleteResult).ToList(),
@@ -213,7 +214,7 @@ namespace YuGet.Storage.Azure
                 var version = NuGetVersion.Parse(package.OriginalVersion);
 
                 totalDownloads += package.Downloads;
-                versions.Add(new SearchResultVersion
+                versions.Add(new AzureSearchResultVersion
                 {
                     RegistrationLeafUrl = _url.GetRegistrationLeafUrl(package.Id, version),
                     Version = package.NormalizedVersion,
@@ -231,7 +232,7 @@ namespace YuGet.Storage.Azure
                 ? _url.GetPackageIconDownloadUrl(latest.Id, latestVersion)
                 : latest.IconUrl;
 
-            return new SearchResult
+            return new AzureSearchResult
             {
                 PackageId = latest.Id,
                 Version = latest.NormalizedVersion,

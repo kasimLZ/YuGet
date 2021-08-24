@@ -1,20 +1,21 @@
+using Microsoft.Azure.Search;
+using NuGet.Versioning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Search;
-using NuGet.Versioning;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core;
+using YuGet.Core.Models.Abstraction;
+using YuGet.Storage.Azure.Models;
 
 namespace YuGet.Storage.Azure
 {
-    using QueryType = Microsoft.Azure.Search.Models.QueryType;
-    using SearchParameters = Microsoft.Azure.Search.Models.SearchParameters;
+	using QueryType = Microsoft.Azure.Search.Models.QueryType;
+	using SearchParameters = Microsoft.Azure.Search.Models.SearchParameters;
 
-    public class AzureSearchService : ISearchService
+	public class AzureSearchService : ISearchService
     {
         private readonly SearchIndexClient _searchClient;
         private readonly IUrlGenerator _url;
@@ -66,7 +67,7 @@ namespace YuGet.Storage.Azure
                 {
                     var version = NuGetVersion.Parse(document.Versions[i]);
 
-                    versions.Add(new SearchResultVersion
+                    versions.Add(new AzureSearchResultVersion
                     {
                         RegistrationLeafUrl = _url.GetRegistrationLeafUrl(document.Id, version),
                         Version = document.Versions[i],
@@ -78,7 +79,7 @@ namespace YuGet.Storage.Azure
                     ? _url.GetPackageIconDownloadUrl(document.Id, NuGetVersion.Parse(document.Version))
                     : document.IconUrl;
 
-                results.Add(new SearchResult
+                results.Add(new AzureSearchResult
                 {
                     PackageId =  document.Id,
                     Version = document.Version,
@@ -96,11 +97,11 @@ namespace YuGet.Storage.Azure
                 });
             }
 
-            return new SearchResponse
+            return new AzureSearchResponse
             {
                 TotalHits = response.Count.Value,
                 Data = results,
-                Context = SearchContext.Default(_url.GetPackageMetadataResourceUrl())
+                Context = AzureSearchContext.Default(_url.GetPackageMetadataResourceUrl())
             };
         }
 
@@ -127,11 +128,11 @@ namespace YuGet.Storage.Azure
                 .ToList()
                 .AsReadOnly();
 
-            return new AutocompleteResponse
+            return new AzureAutocompleteResponse
             {
                 TotalHits = response.Count.Value,
                 Data = results,
-                Context = AutocompleteContext.Default
+                Context = AzureAutocompleteContext.Default
             };
         }
 
@@ -159,7 +160,7 @@ namespace YuGet.Storage.Azure
 
             var response = await _searchClient.Documents.SearchAsync<PackageDocument>(query, parameters, cancellationToken: cancellationToken);
             var results = response.Results
-                .Select(r => new DependentResult
+                .Select(r => new AzureDependentResult
                 {
                     Id = r.Document.Id,
                     Description = r.Document.Description,
@@ -168,7 +169,7 @@ namespace YuGet.Storage.Azure
                 .ToList()
                 .AsReadOnly();
 
-            return new DependentsResponse
+            return new AzureDependentsResponse
             {
                 TotalHits = response.Count.Value,
                 Data = results

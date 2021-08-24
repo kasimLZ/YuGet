@@ -1,21 +1,21 @@
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using NuGet.Versioning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using NuGet.Versioning;
-using YuGet.Base;
+using YuGet.Core;
 using YuGet.Database.Models;
 
 namespace YuGet.Storage.Azure
 {
-    /// <summary>
-    /// Stores the metadata of packages using Azure Table Storage.
-    /// </summary>
-    public partial class TablePackageService : IPackageService
+	/// <summary>
+	/// Stores the metadata of packages using Azure Table Storage.
+	/// </summary>
+	public partial class TablePackageService : IPackageService
     {
         private const string TableName = "Packages";
         private const int MaxPreconditionFailures = 5;
@@ -222,7 +222,7 @@ namespace YuGet.Storage.Azure
 
             return new Package
             {
-                Id = entity.Id,
+                Key = entity.Id,
                 NormalizedVersionString = entity.NormalizedVersion,
                 OriginalVersionString = entity.OriginalVersion,
 
@@ -263,7 +263,7 @@ namespace YuGet.Storage.Azure
             return JsonConvert.DeserializeObject<List<DependencyModel>>(input)
                 .Select(e => new PackageDependency
                 {
-                    Id = e.Id,
+                    Key = e.Id,
                     VersionRange = e.VersionRange,
                     TargetFramework = e.TargetFramework,
                 })

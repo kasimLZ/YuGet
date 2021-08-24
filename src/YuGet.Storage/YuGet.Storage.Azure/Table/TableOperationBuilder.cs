@@ -19,10 +19,10 @@ namespace YuGet.Storage.Azure
 
             var entity = new PackageEntity
             {
-                PartitionKey = package.Id.ToLowerInvariant(),
+                PartitionKey = package.Key.ToLowerInvariant(),
                 RowKey = normalizedVersion.ToLowerInvariant(),
 
-                Id = package.Id,
+                Id = package.Key,
                 NormalizedVersion = normalizedVersion,
                 OriginalVersion = version.ToFullString(),
                 Authors = JsonConvert.SerializeObject(package.Authors),
@@ -112,7 +112,7 @@ namespace YuGet.Storage.Azure
         {
             return new DependencyModel
             {
-                Id = dependency.Id,
+                Id = dependency.Key,
                 VersionRange = dependency.VersionRange,
                 TargetFramework = dependency.TargetFramework
             };

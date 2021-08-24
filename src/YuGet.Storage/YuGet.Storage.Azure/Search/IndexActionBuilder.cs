@@ -68,28 +68,29 @@ namespace YuGet.Storage.Azure
                 var latest = versions.Last();
                 var dependencies = latest
                     .Dependencies
-                    .Select(d => d.Id?.ToLowerInvariant())
+                    .Select(d => d.Key?.ToLowerInvariant())
                     .Where(d => d != null)
                     .Distinct()
                     .ToArray();
 
-                var document = new PackageDocument();
-
-                document.Key = $"{encodedId}-{searchFilters}";
-                document.Id = latest.Id;
-                document.Version = latest.Version.ToFullString();
-                document.Description = latest.Description;
-                document.Authors = latest.Authors.ToArray();
-                document.HasEmbeddedIcon = latest.HasEmbeddedIcon;
-                document.IconUrl = latest.IconUrlString;
-                document.LicenseUrl = latest.LicenseUrlString;
-                document.ProjectUrl = latest.ProjectUrlString;
-                document.Published = latest.Published;
-                document.Summary = latest.Summary;
-                document.Tags = latest.Tags.Select(a => a.Tag.Name).ToArray();
-                document.Title = latest.Title;
-                document.TotalDownloads = versions.Sum(p => p.Downloads);
-                document.DownloadsMagnitude = document.TotalDownloads.ToString().Length;
+				var document = new PackageDocument
+				{
+					Key = $"{encodedId}-{searchFilters}",
+					Id = latest.Key,
+					Version = latest.Version.ToFullString(),
+					Description = latest.Description,
+					Authors = latest.Authors.ToArray(),
+					HasEmbeddedIcon = latest.HasEmbeddedIcon,
+					IconUrl = latest.IconUrlString,
+					LicenseUrl = latest.LicenseUrlString,
+					ProjectUrl = latest.ProjectUrlString,
+					Published = latest.Published,
+					Summary = latest.Summary,
+					Tags = latest.Tags.Select(a => a.Tag.Name).ToArray(),
+					Title = latest.Title,
+					TotalDownloads = versions.Sum(p => p.Downloads)
+				};
+				document.DownloadsMagnitude = document.TotalDownloads.ToString().Length;
                 document.Versions = versions.Select(p => p.Version.ToFullString()).ToArray();
                 document.VersionDownloads = versions.Select(p => p.Downloads.ToString()).ToArray();
                 document.Dependencies = dependencies;
