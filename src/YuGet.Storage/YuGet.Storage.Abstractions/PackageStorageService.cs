@@ -8,7 +8,7 @@ using YuGet.Database.Models;
 
 namespace YuGet.Storage
 {
-    public class PackageStorageService : IPackageStorageService
+    internal class PackageStorageService : IPackageStorageService
     {
         private const string PackagesPathPrefix = "packages";
 

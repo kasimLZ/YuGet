@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YuGet.Storage
 {
-    public class SymbolStorageService : ISymbolStorageService
+    internal class SymbolStorageService : ISymbolStorageService
     {
         private const string SymbolsPathPrefix = "symbols";
         private const string PdbContentType = "binary/octet-stream";
@@ -18,6 +18,7 @@ namespace YuGet.Storage
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
+        /// <inheritdoc/>
         public async Task SavePortablePdbContentAsync(
             string filename,
             string key,
@@ -33,6 +34,7 @@ namespace YuGet.Storage
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Stream> GetPortablePdbContentStreamOrNullAsync(string filename, string key)
         {
             var path = GetPathForKey(filename, key);
