@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Exceptions;
+using YuGet.Core.Models.Abstraction;
 using YuGet.Database.Models;
 
 namespace YuGet.Core
@@ -104,7 +104,7 @@ namespace YuGet.Core
         {
             return new Package
             {
-                Id = metadata.PackageId,
+                Key = metadata.PackageId,
                 Version = metadata.ParseVersion(),
                 Authors = ParseAuthors(metadata.Authors),
                 Description = metadata.Description,
@@ -173,7 +173,7 @@ namespace YuGet.Core
                 {
                     new PackageDependency
                     {
-                        Id = null,
+                        Key = null,
                         VersionRange = null,
                         TargetFramework = group.TargetFramework
                     }
@@ -182,7 +182,7 @@ namespace YuGet.Core
 
             return group.Dependencies.Select(d => new PackageDependency
             {
-                Id = d.Id,
+                Key = d.Id,
                 VersionRange = d.Range,
                 TargetFramework = group.TargetFramework
             });

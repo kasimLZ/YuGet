@@ -1,15 +1,14 @@
+using NuGet.Frameworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using NuGet.Frameworks;
-using YuGet.Base;
 
 namespace YuGet.Core
 {
-    using static NuGet.Frameworks.FrameworkConstants;
+	using static NuGet.Frameworks.FrameworkConstants;
 
-    public class FrameworkCompatibilityService : IFrameworkCompatibilityService
+	public class FrameworkCompatibilityService : IFrameworkCompatibilityService
     {
         private const string AnyFramework = "any";
 

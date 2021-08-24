@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 
 namespace YuGet.Core
 {
@@ -13,52 +13,46 @@ namespace YuGet.Core
     {
         private static readonly IReadOnlyList<string> EmptyStringList = new List<string>();
 
-        private static readonly Task<AutocompleteResponse> EmptyAutocompleteResponseTask =
-            Task.FromResult(new AutocompleteResponse
+        private static readonly AutocompleteResponse EmptyAutocompleteResponse =
+            new AutocompleteResponseRef
             {
                 TotalHits = 0,
                 Data = EmptyStringList,
-                Context = AutocompleteContext.Default
-            });
+                Context = AutocompleteContextRef.Default
+            };
 
-        private static readonly Task<DependentsResponse> EmptyDependentsResponseTask =
-            Task.FromResult(new DependentsResponse
+        private static readonly DependentsResponse EmptyDependentsResponse =
+            new DependentsResponseRef()
             {
                 TotalHits = 0,
                 Data = new List<DependentResult>()
-            });
+            };
 
-        private static readonly Task<SearchResponse> EmptySearchResponseTask =
-            Task.FromResult(new SearchResponse
+        private static readonly SearchResponse EmptySearchResponse =
+            new SearchResponseRef
             {
                 TotalHits = 0,
                 Data = new List<SearchResult>()
-            });
+            };
 
-        public Task<AutocompleteResponse> AutocompleteAsync(
-            AutocompleteRequest request,
-            CancellationToken cancellationToken)
+        public async Task<AutocompleteResponse> AutocompleteAsync(AutocompleteRequest request, CancellationToken _)
         {
-            return EmptyAutocompleteResponseTask;
+            return await Task.FromResult(EmptyAutocompleteResponse);
         }
 
-        public Task<AutocompleteResponse> ListPackageVersionsAsync(
-            VersionsRequest request,
-            CancellationToken cancellationToken)
+        public async Task<AutocompleteResponse> ListPackageVersionsAsync(VersionsRequest request, CancellationToken _)
         {
-            return EmptyAutocompleteResponseTask;
+            return await Task.FromResult(EmptyAutocompleteResponse);
         }
 
-        public Task<DependentsResponse> FindDependentsAsync(string packageId, CancellationToken cancellationToken)
+        public async Task<DependentsResponse> FindDependentsAsync(string packageKey, CancellationToken _)
         {
-            return EmptyDependentsResponseTask;
+            return await Task.FromResult(EmptyDependentsResponse);
         }
 
-        public Task<SearchResponse> SearchAsync(
-            SearchRequest request,
-            CancellationToken cancellationToken)
+        public async Task<SearchResponse> SearchAsync(SearchRequest request, CancellationToken _)
         {
-            return EmptySearchResponseTask;
+            return await Task.FromResult(EmptySearchResponse);
         }
     }
 }

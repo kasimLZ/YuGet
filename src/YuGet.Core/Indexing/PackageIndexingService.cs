@@ -1,17 +1,16 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using NuGet.Packaging;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using NuGet.Packaging;
-using YuGet.Base;
 using YuGet.Database.Models;
 using YuGet.Storage;
 
 namespace YuGet.Core
 {
-    public class PackageIndexingService : IPackageIndexingService
+	public class PackageIndexingService : IPackageIndexingService
     {
         private readonly IPackageService _packages;
         private readonly IPackageStorageService _storage;
@@ -83,15 +82,15 @@ namespace YuGet.Core
             }
 
             // The package is well-formed. Ensure this is a new package.
-            if (await _packages.ExistsAsync(package.Id, package.Version, cancellationToken))
+            if (await _packages.ExistsAsync(package.Key, package.Version, cancellationToken))
             {
                 if (!_options.Value.AllowPackageOverwrites)
                 {
                     return PackageIndexingResult.PackageAlreadyExists;
                 }
 
-                await _packages.HardDeletePackageAsync(package.Id, package.Version, cancellationToken);
-                await _storage.DeleteAsync(package.Id, package.Version, cancellationToken);
+                await _packages.HardDeletePackageAsync(package.Key, package.Version, cancellationToken);
+                await _storage.DeleteAsync(package.Key, package.Version, cancellationToken);
             }
 
             // TODO: Add more package validations

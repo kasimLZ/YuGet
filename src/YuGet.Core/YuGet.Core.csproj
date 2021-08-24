@@ -20,6 +20,7 @@
     <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Abstractions\YuGet.Storage.Abstractions.csproj" />
     <ProjectReference Include="..\YuGet.Storage\Yuget.Storage.Aliyun\Yuget.Storage.Aliyun.csproj" />
     <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.AWS\YuGet.Storage.AWS.csproj" />
-    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj" />
+    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.FileSystem\YuGet.Storage.FileSystem.csproj" />
+    <!--<ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj" />-->
   </ItemGroup>
 </Project>

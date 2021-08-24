@@ -10,7 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base.Models;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 
 namespace YuGet.Core
 {
@@ -53,7 +54,7 @@ namespace YuGet.Core
             var result = new List<PackageMetadata>();
             foreach (var package in packages)
             {
-                result.Add(new PackageMetadata
+                result.Add(new PackageMetadataRef
                 {
                     Authors = package.Authors,
                     Description = package.Description,
@@ -98,7 +99,7 @@ namespace YuGet.Core
 
                 foreach (var dependency in set.Packages)
                 {
-                    item.Dependencies.Add(new DependencyItem
+                    item.Dependencies.Add(new DependencyItemRef
                     {
                         Id = dependency.Id,
                         Range = dependency.VersionRange.ToNormalizedString(),

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Versioning;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 using YuGet.Storage;
-using YuGet.Base.Models;
-using YuGet.Base;
 
 namespace YuGet.Core
 {
@@ -51,7 +51,7 @@ namespace YuGet.Core
                 versions = packages.Select(p => p.Version).ToList();
             }
 
-            return new PackageVersionsResponse
+            return new PackageVersionsResponseRef
             {
                 Versions = versions
                     .Select(v => v.ToNormalizedString())

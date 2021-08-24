@@ -40,16 +40,16 @@ namespace YuGet.Core
 
                 foreach (var package in await GetBatchAsync(batch, cancellationToken))
                 {
-                    var packageId = package.Id.ToLowerInvariant();
+                    var packageKey = package.Key.ToLowerInvariant();
                     var packageVersion = package.NormalizedVersionString.ToLowerInvariant();
 
-                    if (!packageDownloads.ContainsKey(packageId) ||
-                        !packageDownloads[packageId].ContainsKey(packageVersion))
+                    if (!packageDownloads.ContainsKey(packageKey) ||
+                        !packageDownloads[packageKey].ContainsKey(packageVersion))
                     {
                         continue;
                     }
 
-                    package.Downloads = packageDownloads[packageId][packageVersion];
+                    package.Downloads = packageDownloads[packageKey][packageVersion];
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);

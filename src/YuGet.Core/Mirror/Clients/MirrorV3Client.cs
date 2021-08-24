@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Models.Abstraction;
 
 namespace YuGet.Core
 {

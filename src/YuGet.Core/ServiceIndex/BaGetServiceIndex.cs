@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 
 namespace YuGet.Core
 {
-    public class BaGetServiceIndex : IServiceIndexService
+	public class BaGetServiceIndex : IServiceIndexService
     {
         private readonly IUrlGenerator _url;
 
@@ -16,13 +16,13 @@ namespace YuGet.Core
             _url = url ?? throw new ArgumentNullException(nameof(url));
         }
 
-        private IEnumerable<ServiceIndexItem> BuildResource(string name, string url, params string[] versions)
+        private static IEnumerable<ServiceIndexItem> BuildResource(string name, string url, params string[] versions)
         {
             foreach (var version in versions)
             {
                 var type = string.IsNullOrEmpty(version) ? name : $"{name}/{version}";
 
-                yield return new ServiceIndexItem
+                yield return new ServiceIndexItemRef
                 {
                     ResourceUrl = url,
                     Type = type,
@@ -30,7 +30,7 @@ namespace YuGet.Core
             }
         }
 
-        public Task<ServiceIndexResponse> GetAsync(CancellationToken cancellationToken = default)
+        public async Task<ServiceIndexResponse> GetAsync(CancellationToken cancellationToken = default)
         {
             var resources = new List<ServiceIndexItem>();
 
@@ -41,13 +41,13 @@ namespace YuGet.Core
             resources.AddRange(BuildResource("PackageBaseAddress", _url.GetPackageContentResourceUrl(), "3.0.0"));
             resources.AddRange(BuildResource("SearchAutocompleteService", _url.GetAutocompleteResourceUrl(), "", "3.0.0-rc", "3.0.0-beta"));
 
-            var result = new ServiceIndexResponse
+            var result = new ServiceIndexResponseRef
             {
                 Version = "3.0.0",
                 Resources = resources,
             };
 
-            return Task.FromResult(result);
+            return await Task.FromResult(result);
         }
 
 	}

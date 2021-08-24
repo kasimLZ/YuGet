@@ -1,15 +1,14 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NuGet.Versioning;
-using YuGet.Base;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using YuGet.Storage;
 
 namespace YuGet.Core
 {
-    public class PackageDeletionService : IPackageDeletionService
+	public class PackageDeletionService : IPackageDeletionService
     {
         private readonly IPackageService _packages;
         private readonly IPackageStorageService _storage;

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 using YuGet.Database;
 using YuGet.Database.Models;
 
@@ -29,36 +29,34 @@ namespace YuGet.Core
             CancellationToken cancellationToken)
         {
             var result = new List<SearchResult>();
-            var packages = await SearchImplAsync(
-                request,
-                cancellationToken);
+            var packages = await SearchImplAsync(request, cancellationToken);
 
             foreach (var package in packages)
             {
                 var versions = package.OrderByDescending(p => p.Version).ToList();
                 var latest = versions.First();
                 var iconUrl = latest.HasEmbeddedIcon
-                    ? _url.GetPackageIconDownloadUrl(latest.Id, latest.Version)
+                    ? _url.GetPackageIconDownloadUrl(latest.Key, latest.Version)
                     : latest.IconUrlString;
 
-                result.Add(new SearchResult
+                result.Add(new SearchResultRef
                 {
-                    PackageId = latest.Id,
+                    PackageId = latest.Key,
                     Version = latest.Version.ToFullString(),
                     Description = latest.Description,
                     Authors = latest.Authors,
                     IconUrl = iconUrl,
                     LicenseUrl = latest.LicenseUrlString,
                     ProjectUrl = latest.ProjectUrlString,
-                    RegistrationIndexUrl = _url.GetRegistrationIndexUrl(latest.Id),
+                    RegistrationIndexUrl = _url.GetRegistrationIndexUrl(latest.Key),
                     Summary = latest.Summary,
                     Tags = latest.Tags.Select(a => a.Tag.Name).ToArray(),
                     Title = latest.Title,
                     TotalDownloads = versions.Sum(p => p.Downloads),
                     Versions = versions
-                        .Select(p => new SearchResultVersion
+                        .Select(p => new SearchResultVersionRef
                         {
-                            RegistrationLeafUrl = _url.GetRegistrationLeafUrl(p.Id, p.Version),
+                            RegistrationLeafUrl = _url.GetRegistrationLeafUrl(p.Key, p.Version),
                             Version = p.Version.ToFullString(),
                             Downloads = p.Downloads,
                         })
@@ -66,11 +64,11 @@ namespace YuGet.Core
                 });
             }
 
-            return new SearchResponse
+            return new SearchResponseRef
             {
                 TotalHits = result.Count,
                 Data = result,
-                Context = SearchContext.Default(_url.GetPackageMetadataResourceUrl())
+                Context = SearchContextRef.Default(_url.GetPackageMetadataResourceUrl())
             };
         }
 
@@ -83,7 +81,7 @@ namespace YuGet.Core
             if (!string.IsNullOrEmpty(request.Query))
             {
                 var query = request.Query.ToLower();
-                search = search.Where(p => p.Id.ToLower().Contains(query));
+                search = search.Where(p => p.Key.ToLower().Contains(query));
             }
 
             search = AddSearchFilters(
@@ -98,14 +96,14 @@ namespace YuGet.Core
                 .Distinct()
                 .Skip(request.Skip)
                 .Take(request.Take)
-                .Select(p => p.Id)
+                .Select(p => p.Key)
                 .ToListAsync(cancellationToken);
 
-            return new AutocompleteResponse
+            return new AutocompleteResponseRef
             {
                 TotalHits = results.Count,
                 Data = results,
-                Context = AutocompleteContext.Default
+                Context = AutocompleteContextRef.Default
             };
         }
 
@@ -116,7 +114,7 @@ namespace YuGet.Core
             var packageId = request.PackageId.ToLower();
             IQueryable<Package> search = _context
                 .Set<Package>()
-                .Where(p => p.Id.ToLower().Equals(packageId));
+                .Where(p => p.Key.ToLower().Equals(packageId));
 
             search = AddSearchFilters(
                 search,
@@ -129,32 +127,32 @@ namespace YuGet.Core
                 .Select(p => p.NormalizedVersionString)
                 .ToListAsync(cancellationToken);
 
-            return new AutocompleteResponse
+            return new AutocompleteResponseRef
             {
                 TotalHits = results.Count,
                 Data = results,
-                Context = AutocompleteContext.Default
+                Context = AutocompleteContextRef.Default
             };
         }
 
-        public async Task<DependentsResponse> FindDependentsAsync(string packageId, CancellationToken cancellationToken)
+        public async Task<DependentsResponse> FindDependentsAsync(string packageKey, CancellationToken cancellationToken)
         {
             var results = await _context
                 .Set<Package>()
                 .Where(p => p.Listed)
                 .OrderByDescending(p => p.Downloads)
-                .Where(p => p.Dependencies.Any(d => d.Id == packageId))
+                .Where(p => p.Dependencies.Any(d => d.Key == packageKey))
                 .Take(20)
-                .Select(r => new DependentResult
+                .Select(r => new DependentResultRef
                 {
-                    Id = r.Id,
+                    Id = r.Key,
                     Description = r.Description,
                     TotalDownloads = r.Downloads
                 })
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
-            return new DependentsResponse
+            return new DependentsResponseRef
             {
                 TotalHits = results.Count,
                 Data = results
@@ -178,7 +176,7 @@ namespace YuGet.Core
             if (!string.IsNullOrEmpty(request.Query))
             {
                 var query = request.Query.ToLower();
-                search = search.Where(p => p.Id.ToLower().Contains(query));
+                search = search.Where(p => p.Key.ToLower().Contains(query));
             }
 
             var packageIds = search.Select(p => p.Id)
@@ -213,7 +211,7 @@ namespace YuGet.Core
 
             var results = await search.ToListAsync(cancellationToken);
 
-            return results.GroupBy(p => p.Id).ToList();
+            return results.GroupBy(p => p.Key).ToList();
         }
 
         private IQueryable<Package> AddSearchFilters(

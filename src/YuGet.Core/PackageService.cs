@@ -1,17 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Versioning;
-using YuGet.Base;
 using YuGet.Database;
 using YuGet.Database.Models;
 
 namespace YuGet.Core
 {
-    public class PackageService : IPackageService
+	public class PackageService : IPackageService
     {
         private readonly IYuGetDbContext _context;
 
@@ -37,30 +36,30 @@ namespace YuGet.Core
             }
         }
 
-        public async Task<bool> ExistsAsync(string id, CancellationToken cancellationToken)
+        public async Task<bool> ExistsAsync(string key, CancellationToken cancellationToken)
         {
             return await _context
                 .Set<Package>()
-                .Where(p => p.Id == id)
+                .Where(p => p.Key == key)
                 .AnyAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
+        public async Task<bool> ExistsAsync(string key, NuGetVersion version, CancellationToken cancellationToken)
         {
             return await _context
                 .Set<Package>()
-                .Where(p => p.Id == id)
+                .Where(p => p.Key == key)
                 .Where(p => p.NormalizedVersionString == version.ToNormalizedString())
                 .AnyAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Package>> FindAsync(string id, bool includeUnlisted, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Package>> FindAsync(string key, bool includeUnlisted, CancellationToken cancellationToken)
         {
             var query = _context.Set<Package>()
                 .Include(p => p.Dependencies)
                 .Include(p => p.PackageTypes)
                 .Include(p => p.TargetFrameworks)
-                .Where(p => p.Id == id);
+                .Where(p => p.Key == key);
 
             if (!includeUnlisted)
             {
@@ -71,7 +70,7 @@ namespace YuGet.Core
         }
 
         public Task<Package> FindOrNullAsync(
-            string id,
+            string key,
             NuGetVersion version,
             bool includeUnlisted,
             CancellationToken cancellationToken)
@@ -79,7 +78,7 @@ namespace YuGet.Core
             var query = _context.Set<Package>()
                 .Include(p => p.Dependencies)
                 .Include(p => p.TargetFrameworks)
-                .Where(p => p.Id == id)
+                .Where(p => p.Key == key)
                 .Where(p => p.NormalizedVersionString == version.ToNormalizedString());
 
             if (!includeUnlisted)
@@ -90,25 +89,25 @@ namespace YuGet.Core
             return query.FirstOrDefaultAsync(cancellationToken);
         }
 
-        public Task<bool> UnlistPackageAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
+        public Task<bool> UnlistPackageAsync(string key, NuGetVersion version, CancellationToken cancellationToken)
         {
-            return TryUpdatePackageAsync(id, version, p => p.Listed = false, cancellationToken);
+            return TryUpdatePackageAsync(key, version, p => p.Listed = false, cancellationToken);
         }
 
-        public Task<bool> RelistPackageAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
+        public Task<bool> RelistPackageAsync(string key, NuGetVersion version, CancellationToken cancellationToken)
         {
-            return TryUpdatePackageAsync(id, version, p => p.Listed = true, cancellationToken);
+            return TryUpdatePackageAsync(key, version, p => p.Listed = true, cancellationToken);
         }
 
-        public Task<bool> AddDownloadAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
+        public Task<bool> AddDownloadAsync(string key, NuGetVersion version, CancellationToken cancellationToken)
         {
-            return TryUpdatePackageAsync(id, version, p => p.Downloads += 1, cancellationToken);
+            return TryUpdatePackageAsync(key, version, p => p.Downloads += 1, cancellationToken);
         }
 
-        public async Task<bool> HardDeletePackageAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
+        public async Task<bool> HardDeletePackageAsync(string key, NuGetVersion version, CancellationToken cancellationToken)
         {
             var package = await _context.Set<Package>()
-                .Where(p => p.Id == id)
+                .Where(p => p.Key == key)
                 .Where(p => p.NormalizedVersionString == version.ToNormalizedString())
                 .Include(p => p.Dependencies)
                 .Include(p => p.TargetFrameworks)
@@ -126,13 +125,13 @@ namespace YuGet.Core
         }
 
         private async Task<bool> TryUpdatePackageAsync(
-            string id,
+            string key,
             NuGetVersion version,
             Action<Package> action,
             CancellationToken cancellationToken)
         {
             var package = await _context.Set<Package>()
-                .Where(p => p.Id == id)
+                .Where(p => p.Key == key)
                 .Where(p => p.NormalizedVersionString == version.ToNormalizedString())
                 .FirstOrDefaultAsync();
 

@@ -66,7 +66,7 @@ namespace YuGet.Core
 
             return new Package
             {
-                Id = nuspec.GetId(),
+                Key = nuspec.GetId(),
                 Version = nuspec.GetVersion(),
                 Authors = ParseAuthors(nuspec.GetAuthors()),
                 Description = nuspec.GetDescription(),
@@ -88,6 +88,7 @@ namespace YuGet.Core
                 RepositoryUrl = repositoryUri,
                 RepositoryType = repositoryType,
                 Dependencies = GetDependencies(nuspec),
+                // TODO : TAGS Format
                 Tags = new List<PackageTag>(), // ParseTags(nuspec.GetTags()),
                 PackageTypes = GetPackageTypes(nuspec),
                 TargetFrameworks = GetTargetFrameworks(packageReader),
@@ -174,7 +175,7 @@ namespace YuGet.Core
                 {
                     dependencies.Add(new PackageDependency
                     {
-                        Id = null,
+                        Key = null,
                         VersionRange = null,
                         TargetFramework = targetFramework,
                     });
@@ -184,7 +185,7 @@ namespace YuGet.Core
                 {
                     dependencies.Add(new PackageDependency
                     {
-                        Id = dependency.Id,
+                        Key = dependency.Id,
                         VersionRange = dependency.VersionRange?.ToString(),
                         TargetFramework = targetFramework,
                     });

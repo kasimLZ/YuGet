@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,16 +7,13 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using NuGet.Packaging;
-using YuGet.Base;
 using YuGet.Storage;
 
 namespace YuGet.Core
 {
-    // Based off: https://github.com/NuGet/NuGetGallery/blob/master/src/NuGetGallery/Services/SymbolPackageUploadService.cs
-    // Based off: https://github.com/NuGet/NuGet.Jobs/blob/master/src/Validation.Symbols/SymbolsValidatorService.cs#L44
-    public class SymbolIndexingService : ISymbolIndexingService
+	// Based off: https://github.com/NuGet/NuGetGallery/blob/master/src/NuGetGallery/Services/SymbolPackageUploadService.cs
+	// Based off: https://github.com/NuGet/NuGet.Jobs/blob/master/src/Validation.Symbols/SymbolsValidatorService.cs#L44
+	public class SymbolIndexingService : ISymbolIndexingService
     {
         private static readonly HashSet<string> ValidSymbolPackageContentExtensions = new HashSet<string>
         {

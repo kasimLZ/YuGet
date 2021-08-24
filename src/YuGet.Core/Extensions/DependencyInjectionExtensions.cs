@@ -6,25 +6,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using YuGet.Base;
 using YuGet.Storage;
 
 namespace YuGet.Core
 {
     public static partial class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddBaGetApplication(
-            this IServiceCollection services,
-            Action<BaGetApplication> configureAction)
+        public static IServiceCollection AddYuGet(this IServiceCollection services)
         {
-            var app = new BaGetApplication(services);
-
             services.AddConfiguration();
             services.AddBaGetServices();
-            services.AddDefaultProviders();
-
-            configureAction(app);
-
             services.AddFallbackServices();
 
             return services;
@@ -58,7 +49,7 @@ namespace YuGet.Core
             });
 
             return services;
-        }
+        }                 
 
         private static void AddConfiguration(this IServiceCollection services)
         {
@@ -92,54 +83,18 @@ namespace YuGet.Core
             services.TryAddTransient<IPackageDeletionService, PackageDeletionService>();
             services.TryAddTransient<IPackageIndexingService, PackageIndexingService>();
             services.TryAddTransient<IPackageMetadataService, DefaultPackageMetadataService>();
-            services.TryAddTransient<IPackageStorageService, PackageStorageService>();
             services.TryAddTransient<IServiceIndexService, BaGetServiceIndex>();
             services.TryAddTransient<ISymbolIndexingService, SymbolIndexingService>();
-            services.TryAddTransient<ISymbolStorageService, SymbolStorageService>();
 
             services.TryAddTransient<DatabaseSearchService>();
-            services.TryAddTransient<FileStorageService>();
             services.TryAddTransient<MirrorService>();
             services.TryAddTransient<MirrorV2Client>();
             services.TryAddTransient<MirrorV3Client>();
             services.TryAddTransient<NullMirrorService>();
-            services.TryAddSingleton<NullStorageService>();
             services.TryAddTransient<PackageService>();
 
             services.TryAddTransient(IMirrorServiceFactory);
             services.TryAddTransient(IMirrorNuGetClientFactory);
-        }
-
-        private static void AddDefaultProviders(this IServiceCollection services)
-        {
-            services.AddProvider((provider, configuration) =>
-            {
-                if (!configuration.HasSearchType("null")) return null;
-
-                return provider.GetRequiredService<NullSearchService>();
-            });
-
-            services.AddProvider((provider, configuration) =>
-            {
-                if (!configuration.HasSearchType("null")) return null;
-
-                return provider.GetRequiredService<NullSearchIndexer>();
-            });
-
-            services.AddProvider<IStorageService>((provider, configuration) =>
-            {
-                if (configuration.HasStorageType("filesystem"))
-                {
-                    return provider.GetRequiredService<FileStorageService>();
-                }
-
-                if (configuration.HasStorageType("null"))
-                {
-                    return provider.GetRequiredService<NullStorageService>();
-                }
-
-                return null;
-            });
         }
 
         private static void AddFallbackServices(this IServiceCollection services)

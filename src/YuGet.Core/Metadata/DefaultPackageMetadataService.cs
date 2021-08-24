@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Base;
-using YuGet.Base.Models;
+using YuGet.Core.Models;
+using YuGet.Core.Models.Abstraction;
 using YuGet.Database.Models;
 
 namespace YuGet.Core
@@ -28,7 +28,7 @@ namespace YuGet.Core
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
-        public async Task<BaGetRegistrationIndexResponse> GetRegistrationIndexOrNullAsync(
+        public async Task<DefaultRegistrationIndexResponse> GetRegistrationIndexOrNullAsync(
             string packageId,
             CancellationToken cancellationToken = default)
         {
@@ -37,7 +37,8 @@ namespace YuGet.Core
             {
                 return null;
             }
-
+            //RegistrationIndexResponse
+            //RegistrationIndexResponse
             return _builder.BuildIndex(
                 new PackageRegistration(
                     packageId,
@@ -76,8 +77,8 @@ namespace YuGet.Core
             }
 
             // Mrge the local packages into the upstream packages.
-            var result = upstreamPackages.ToDictionary(p => new PackageIdentity(p.Id, p.Version));
-            var local = localPackages.ToDictionary(p => new PackageIdentity(p.Id, p.Version));
+            var result = upstreamPackages.ToDictionary(p => new PackageIdentity(p.Key, p.Version));
+            var local = localPackages.ToDictionary(p => new PackageIdentity(p.Key, p.Version));
 
             foreach (var localPackage in local)
             {
@@ -86,5 +87,10 @@ namespace YuGet.Core
 
             return result.Values.ToList();
         }
-    }
+
+		Task<RegistrationIndexResponse> IPackageMetadataService.GetRegistrationIndexOrNullAsync(string packageId, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
