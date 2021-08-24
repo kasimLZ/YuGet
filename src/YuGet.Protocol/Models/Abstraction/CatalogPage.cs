@@ -30,7 +30,7 @@ namespace YuGet.Core.Models.Abstraction
         /// The items used to discover <see cref="CatalogLeaf"/>s.
         /// </summary>
         [JsonPropertyName("items")]
-        public virtual IEnumerable<CatalogLeafItem> Items { get; set; }
+        public virtual List<CatalogLeafItem> Items { get; set; }
 
         /// <summary>
         /// The URL to the Catalog Index.

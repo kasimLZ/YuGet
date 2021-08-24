@@ -20,6 +20,6 @@ namespace YuGet.Core.Models.Abstraction
         /// A list of dependencies.
         /// </summary>
         [JsonPropertyName("dependencies")]
-        public IEnumerable<DependencyItem> Dependencies { get; set; }
+        public IList<DependencyItem> Dependencies { get; set; }
     }
 }

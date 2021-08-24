@@ -41,11 +41,11 @@ namespace YuGet.Core
         /// <summary>
         /// Find the packages that depend on a given package.
         /// </summary>
-        /// <param name="packageId">The package whose dependents should be found.</param>
+        /// <param name="packageKey">The package whose dependents should be found.</param>
         /// <param name="cancellationToken">A token to cancel the task.</param>
         /// <returns>The dependents response.</returns>
         Task<DependentsResponse> FindDependentsAsync(
-            string packageId,
+            string packageKey,
             CancellationToken cancellationToken);
     }
 }

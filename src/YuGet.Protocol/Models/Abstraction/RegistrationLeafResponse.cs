@@ -11,12 +11,6 @@ namespace YuGet.Core.Models.Abstraction
     /// </summary>
     public abstract class RegistrationLeafResponse
     {
-        public static readonly IReadOnlyList<string> DefaultType = new List<string>
-        {
-            "Package",
-            "http://schema.nuget.org/catalog#Permalink"
-        };
-
         /// <summary>
         /// The URL to the registration leaf.
         /// </summary>

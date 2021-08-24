@@ -10,13 +10,6 @@ namespace YuGet.Core.Models.Abstraction
     /// </summary>
     public abstract class RegistrationIndexResponse
     {
-        public static readonly IReadOnlyList<string> DefaultType = new List<string>
-        {
-            "catalog:CatalogRoot",
-            "PackageRegistration",
-            "catalog:Permalink"
-        };
-
         /// <summary>
         /// The URL to the registration index.
         /// </summary>
