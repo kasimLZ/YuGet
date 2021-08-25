@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
+    <ProjectReference Include="..\..\YuGet.Protocol\YuGet.Protocol.csproj" />
   </ItemGroup>
   
 </Project>

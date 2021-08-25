@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace YuGet.Storage.Aliyun
 {
-    public class AliyunStorageService : IStorageService
+    internal class AliyunStorageService : IStorageService
     {
         private const string Separator = "/";
         private readonly string _bucket;
@@ -42,7 +42,6 @@ namespace YuGet.Storage.Aliyun
             }
             catch (Exception)
             {
-                // TODO
                 throw;
             }
         }
@@ -56,9 +55,6 @@ namespace YuGet.Storage.Aliyun
 
         public async Task<StoragePutResult> PutAsync(string path, Stream content, string contentType, CancellationToken cancellationToken = default)
         {
-            // TODO: Uploads should be idempotent. This should fail if and only if the blob
-            // already exists but has different content.
-
             var metadata = new ObjectMetadata
             {
                 ContentType = contentType,
@@ -66,22 +62,14 @@ namespace YuGet.Storage.Aliyun
 
             var putResult = await Task<PutObjectResult>.Factory.FromAsync(_client.BeginPutObject, _client.EndPutObject, _bucket, PrepareKey(path), content, metadata);
 
-            switch (putResult.HttpStatusCode)
-            {
-                case System.Net.HttpStatusCode.OK:
-                    return StoragePutResult.Success;
-
-                // TODO: check sdk documents
-                //case System.Net.HttpStatusCode.Conflict:
-                //    return StoragePutResult.Conflict;
-
-                //case System.Net.HttpStatusCode.Found:
-                //    return StoragePutResult.AlreadyExists;
-
-                default:
-                    return StoragePutResult.Success;
-            }
-        }
+			return putResult.HttpStatusCode switch
+			{
+				System.Net.HttpStatusCode.OK => StoragePutResult.Success,
+				System.Net.HttpStatusCode.Conflict => StoragePutResult.Conflict,
+				System.Net.HttpStatusCode.Found => StoragePutResult.AlreadyExists,
+				_ => StoragePutResult.Success,
+			};
+		}
 
         public Task DeleteAsync(string path, CancellationToken cancellationToken = default)
         {

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YuGet.Storage.Aws
 {
-	public class S3StorageOptions
+	internal class S3StorageOptions
     {
         [RequiredIf(nameof(SecretKey), null, IsInverted = true)]
         public string AccessKey { get; set; }

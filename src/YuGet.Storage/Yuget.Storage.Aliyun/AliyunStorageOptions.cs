@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YuGet.Storage.Aliyun
 {
-    public class AliyunStorageOptions
+    internal class AliyunStorageOptions
     {
         [Required]
         public string AccessKey { get; set; }

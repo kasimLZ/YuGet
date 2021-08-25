@@ -1,22 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using YuGet.Protocol.Builder;
 
 namespace YuGet.Storage.Abstractions
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface IYuGetStorageProvider
+	public interface IYuGetStorageProvider : IModuleProvider
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		string StroageName { get; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="services"></param>
-		void SetupStorage(IServiceCollection services, IConfiguration configuration);
 	}
 }

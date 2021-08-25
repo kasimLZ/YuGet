@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using YuGet.Protocol.Builder;
 
@@ -12,28 +13,37 @@ namespace YuGet.Core.Builder
 
 		public YuGetOptions Options { get; set; }
 
-		public IYuGetOptionBuilder AddModuleProvider<TProvider>(TProvider provider) where TProvider : IModuleProvider
+		public IConfiguration Configuration { get; set; }
+
+		public IYuGetOptionBuilder AddModuleProvider<TProvider>(ModuleProviderType module, TProvider provider) where TProvider : IModuleProvider
 		{
-			if (!Enum.IsDefined(provider.ModuleType))
+			if (!Enum.IsDefined(module))
 			{
-				throw new ArgumentException($"Unacceptable module type :{provider.ModuleType}");
+				throw new ArgumentException($"Unacceptable module type :{module}");
 			}
 
-			if ((provider.ModuleType & Installed) > 0)
+			if ((module & Installed) > 0)
 			{
-				throw new ArgumentException($"The {provider.ModuleType} is Installed.");
+				throw new ArgumentException($"The {module} is Installed.");
 			}
-			Installed |= provider.ModuleType;
 
-			provider.SetupModule(Service, Options);
+			try
+			{
+				Installed |= module;
+				provider.SetupModule(Service, Options, Configuration);
+			}
+			catch (Exception e)
+			{
+				Installed &= ~module;
+			}
+			
 			return this;
 		}
 
-		public IYuGetOptionBuilder AddModuleProvider<TProvider, TInstaller>()
-			where TProvider : IModuleProvider
-			where TInstaller : TProvider, new()
+		public IYuGetOptionBuilder AddModuleProvider<TProvider>(ModuleProviderType module)
+			where TProvider : IModuleProvider, new()
 		{
-			AddModuleProvider<TProvider>(new TInstaller());
+			AddModuleProvider(module, new TProvider());
 			return this;
 		}
 	}

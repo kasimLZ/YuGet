@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace YuGet.Storage.Aws
 {
-	public class S3StorageService : IStorageService
+	internal class S3StorageService : IStorageService
     {
         private const string Separator = "/";
         private readonly string _bucket;

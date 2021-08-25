@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.PostgreSQL
 {
@@ -10,11 +10,9 @@ namespace YuGet.Database.PostgreSQL
 	{
 		private const string DatabaseName = "PostgreSQL";
 
-		public ModuleProviderType ModuleType => ModuleProviderType.Database;
-
 		public string Sign => DatabaseName;
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options)
+		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
 		{
 			services.AddDbContext<IYuGetDbContext, PostgreSQLDbContext>(x => {
 				x.UseNpgsql(options.Database.ConnectionString);

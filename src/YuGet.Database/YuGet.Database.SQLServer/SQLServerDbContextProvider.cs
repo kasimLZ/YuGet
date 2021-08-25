@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.SQLServer
 {
@@ -10,11 +10,9 @@ namespace YuGet.Database.SQLServer
 	{
 		private const string DatabaseName = "Mssql";
 
-		public ModuleProviderType ModuleType => ModuleProviderType.Database;
-
 		public string Sign => DatabaseName;
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options)
+		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
 		{
 			services.AddDbContext<IYuGetDbContext, SQLServerDbContext>(x => {
 				x.UseSqlServer(options.Database.ConnectionString);

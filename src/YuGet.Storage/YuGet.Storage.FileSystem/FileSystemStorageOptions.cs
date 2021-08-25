@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace YuGet.Storage
 {
-	public class FileSystemStorageOptions : IValidatableObject
+	internal class FileSystemStorageOptions : IValidatableObject
     {
         /// <summary>
         /// The path at which content will be stored. Defaults to the same path

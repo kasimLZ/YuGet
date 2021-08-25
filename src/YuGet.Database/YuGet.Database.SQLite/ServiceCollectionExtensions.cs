@@ -1,7 +1,7 @@
 ﻿using YuGet.Core.Builder;
 using YuGet.Database.SQLite;
 
-namespace YuGet
+namespace YuGet.Database
 {
 	public static class ServiceCollectionExtensions
 	{

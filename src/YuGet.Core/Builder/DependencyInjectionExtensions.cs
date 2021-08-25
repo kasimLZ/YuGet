@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,6 +10,8 @@ using YuGet.Core.Builder;
 using YuGet.Core.Indexing;
 using YuGet.Core.Mirror;
 using YuGet.Core.Search;
+using YuGet.Database;
+using YuGet.Storage;
 
 namespace YuGet
 {
@@ -16,16 +19,30 @@ namespace YuGet
 	{
 		public static IServiceCollection AddYuget(this IServiceCollection services, Action<IYuGetOptionBuilder> optionBuilder)
 		{
-			services.TryAddSingleton<IFrameworkCompatibilityService, FrameworkCompatibilityService>();
+			
+			using var provider = services.BuildServiceProvider();
 
-			services.TryAddSingleton<NuGetClient>();
-			services.TryAddSingleton<RegistrationBuilder>();
-			services.TryAddSingleton<SystemTime>();
-			services.TryAddSingleton<ValidateStartupOptions>();
+			var builder = new YuGetOptionBuilder
+			{
+				Service = services,
+				Options = new(),
+				Configuration = provider.GetRequiredService<IConfiguration>()
+			};
 
-			services.TryAddTransient<PackageService>();
+			builder.Configuration.Bind(builder.Options);
 
-			services.AddHttpClientService()
+			builder.Service.Configure<YuGetOptions>(builder.Configuration);
+
+			builder.Service.TryAddSingleton<IFrameworkCompatibilityService, FrameworkCompatibilityService>();
+
+			builder.Service.TryAddSingleton<NuGetClient>();
+			builder.Service.TryAddSingleton<RegistrationBuilder>();
+			builder.Service.TryAddSingleton<SystemTime>();
+			builder.Service.TryAddSingleton<ValidateStartupOptions>();
+
+			builder.Service.TryAddTransient<PackageService>();
+
+			builder.Service.AddHttpClientService()
 				.AddMirrorService()
 				.AddNullSearchService()
 				.AddIndexingService()
@@ -33,15 +50,10 @@ namespace YuGet
 				.AddYuGetDbContextCore()
 				.AddYuGetStorageCore();
 
-			services.TryAddTransient<DatabaseSearchService>();
+			builder.Service.TryAddTransient<DatabaseSearchService>();
 
-			services.TryAddTransient<IPackageContentService, DefaultPackageContentService>();
-			services.TryAddTransient<IPackageMetadataService, DefaultPackageMetadataService>();
-
-			var builder = new YuGetOptionBuilder
-			{
-				Service = services
-			};
+			builder.Service.TryAddTransient<IPackageContentService, DefaultPackageContentService>();
+			builder.Service.TryAddTransient<IPackageMetadataService, DefaultPackageMetadataService>();
 
 			optionBuilder.Invoke(builder);
 

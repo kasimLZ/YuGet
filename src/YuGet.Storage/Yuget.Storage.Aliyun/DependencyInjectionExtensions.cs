@@ -1,17 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using YuGet.Core.Builder;
 
-namespace Yuget.Storage.Aliyun
+namespace YuGet.Storage.Aliyun
 {
 	public static class DependencyInjectionExtensions
 	{
-		public static IServiceCollection AddAliyunStorage(this IServiceCollection services)
-		{
-			return services;
-		}
+		public static IYuGetOptionBuilder AddAliyunOSS(this IYuGetOptionBuilder builder) => builder.AddStorage<AliyunOssStorageProvider>();
 	}
 }

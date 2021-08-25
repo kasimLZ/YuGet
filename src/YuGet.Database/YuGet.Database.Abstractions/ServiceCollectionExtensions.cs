@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using YuGet.Core.Builder;
-using YuGet.Database;
 using YuGet.Database.Abstractions;
 using YuGet.Database.Abstractions.Infrastructure;
 
-namespace YuGet
+namespace YuGet.Database
 {
 	public static class ServiceCollectionExtensions
 	{
@@ -18,7 +17,7 @@ namespace YuGet
 		public static IYuGetOptionBuilder AddDatabase<TProvider>(this IYuGetOptionBuilder builder)
 			where TProvider : class, IYuGetDbContextProvider, new()
 		{
-			return builder.AddModuleProvider<IYuGetDbContextProvider, TProvider>();
+			return builder.AddModuleProvider<TProvider>(Protocol.Builder.ModuleProviderType.Database);
 		}
 	}
 }

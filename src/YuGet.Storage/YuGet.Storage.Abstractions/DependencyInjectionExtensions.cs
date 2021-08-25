@@ -1,40 +1,25 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using YuGet.Database.Abstractions;
-using YuGet.Storage;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using YuGet.Core.Builder;
 using YuGet.Storage.Abstractions;
 
-namespace YuGet
+namespace YuGet.Storage
 {
 	public static class DependencyInjectionExtensions
 	{
-		private static readonly Dictionary<Type, IYuGetStorageProvider> storageProviders = new();
-
 		public static IServiceCollection AddYuGetStorageCore(this IServiceCollection services)
 		{
-			services.AddTransient<ISymbolStorageService, SymbolStorageService>();
-			services.AddTransient<IPackageStorageService, PackageStorageService>();
-
+			services.TryAddTransient<ISymbolStorageService, SymbolStorageService>();
+			services.TryAddTransient<IPackageStorageService, PackageStorageService>();
 			return services;
 		}
 
-		public static IServiceCollection AddYuGetStorage(this IServiceCollection services)
-		{
-			services.AddYuGetDbContextCore();
-
-			//storageProviders.Values.
-
-			return services;
-		}
-
-		public static IServiceCollection AddYuGetStorageProvider<TProvider>(this IServiceCollection services)
+		public static IYuGetOptionBuilder AddStorage<TProvider>(this IYuGetOptionBuilder builder)
 			where TProvider : class, IYuGetStorageProvider, new()
 		{
-			storageProviders.TryAdd(typeof(TProvider), new TProvider());
-			return services;
+			builder.AddModuleProvider<TProvider>(Protocol.Builder.ModuleProviderType.Stroage);
+			return builder;
 		}
+
 	}
 }

@@ -4,8 +4,8 @@ namespace YuGet.Core.Builder
 {
 	public interface IYuGetOptionBuilder
 	{
-		IYuGetOptionBuilder AddModuleProvider<TProvider, TInstaller>() where TProvider : IModuleProvider where TInstaller: TProvider, new();
+		IYuGetOptionBuilder AddModuleProvider<TProvider>(ModuleProviderType module) where TProvider : IModuleProvider, new();
 
-		IYuGetOptionBuilder AddModuleProvider<TProvider>(TProvider provider) where TProvider : IModuleProvider;
+		IYuGetOptionBuilder AddModuleProvider<TProvider>(ModuleProviderType module, TProvider provider) where TProvider : IModuleProvider;
 	}
 }
