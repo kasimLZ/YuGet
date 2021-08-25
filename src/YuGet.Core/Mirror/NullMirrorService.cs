@@ -9,7 +9,7 @@ namespace YuGet.Core
     /// <summary>
     /// The mirror service used when mirroring has been disabled.
     /// </summary>
-    public class NullMirrorService : IMirrorService
+    internal class NullMirrorService : IMirrorService
     {
         public Task<IReadOnlyList<NuGetVersion>> FindPackageVersionsOrNullAsync(string id, CancellationToken cancellationToken)
         {

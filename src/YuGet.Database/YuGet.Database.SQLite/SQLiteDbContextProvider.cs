@@ -1,18 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Database.Abstractions.Options;
+using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.SQLite
 {
 	internal sealed class SQLiteDbContextProvider : IYuGetDbContextProvider
 	{
-		public string DatabaseName => "SQLite";
+		private const string DatabaseName = "SQLite";
 
-		public void SetupDbContext(IServiceCollection services, YuGetDatabaseOption option)
+		public ModuleProviderType ModuleType => ModuleProviderType.Database;
+
+		public string Sign => DatabaseName;
+
+		public void SetupModule(IServiceCollection services, YuGetOptions options)
 		{
 			services.AddDbContext<IYuGetDbContext, SQLiteDbContext>(x => {
-				x.UseSqlite(option.ConnectString);
+				x.UseSqlite(options.Database.ConnectionString);
 			});
 		}
 	}

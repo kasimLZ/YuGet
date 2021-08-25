@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YuGet.Database.Models\YuGet.Database.Models.csproj" />
+    <ProjectReference Include="..\..\YuGet.Protocol\YuGet.Protocol.csproj" />
   </ItemGroup>
 
 </Project>

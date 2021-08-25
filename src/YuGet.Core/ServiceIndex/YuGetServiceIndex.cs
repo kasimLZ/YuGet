@@ -7,11 +7,11 @@ using YuGet.Core.Models.Abstraction;
 
 namespace YuGet.Core
 {
-	public class BaGetServiceIndex : IServiceIndexService
+	public class YuGetServiceIndex : IServiceIndexService
     {
         private readonly IUrlGenerator _url;
 
-        public BaGetServiceIndex(IUrlGenerator url)
+        public YuGetServiceIndex(IUrlGenerator url)
         {
             _url = url ?? throw new ArgumentNullException(nameof(url));
         }

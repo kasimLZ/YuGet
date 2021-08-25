@@ -12,13 +12,13 @@ namespace YuGet.Core
     {
         private readonly IPackageService _packages;
         private readonly IPackageStorageService _storage;
-        private readonly BaGetOptions _options;
+        private readonly YuGetOptions _options;
         private readonly ILogger<PackageDeletionService> _logger;
 
         public PackageDeletionService(
             IPackageService packages,
             IPackageStorageService storage,
-            IOptionsSnapshot<BaGetOptions> options,
+            IOptionsSnapshot<YuGetOptions> options,
             ILogger<PackageDeletionService> logger)
         {
             _packages = packages ?? throw new ArgumentNullException(nameof(packages));

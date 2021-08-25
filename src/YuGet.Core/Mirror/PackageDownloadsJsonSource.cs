@@ -12,7 +12,7 @@ using NuGet.Versioning;
 namespace YuGet.Core
 {
     // See https://github.com/NuGet/NuGet.Services.Metadata/blob/master/src/NuGet.Indexing/Downloads.cs
-    public class PackageDownloadsJsonSource : IPackageDownloadsSource
+    internal class PackageDownloadsJsonSource : IPackageDownloadsSource
     {
         public const string PackageDownloadsV1Url = "https://nugetprod0.blob.core.windows.net/ng-search-data/downloads.v1.json";
 

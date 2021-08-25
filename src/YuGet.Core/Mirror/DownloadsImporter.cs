@@ -10,7 +10,7 @@ using YuGet.Database.Models;
 
 namespace YuGet.Core
 {
-    public class DownloadsImporter
+    internal class DownloadsImporter : IDownloadsImporter
     {
         private const int BatchSize = 200;
 

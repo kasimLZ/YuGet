@@ -53,48 +53,48 @@ namespace YuGet.Core
 
         private static void AddConfiguration(this IServiceCollection services)
         {
-            services.AddBaGetOptions<BaGetOptions>();
-            services.AddBaGetOptions<DatabaseOptions>(nameof(BaGetOptions.Database));
-            services.AddBaGetOptions<FileSystemStorageOptions>(nameof(BaGetOptions.Storage));
-            services.AddBaGetOptions<MirrorOptions>(nameof(BaGetOptions.Mirror));
-            services.AddBaGetOptions<SearchOptions>(nameof(BaGetOptions.Search));
-            services.AddBaGetOptions<StorageOptions>(nameof(BaGetOptions.Storage));
+            services.AddBaGetOptions<YuGetOptions>();
+            services.AddBaGetOptions<DatabaseOptions>(nameof(YuGetOptions.Database));
+            services.AddBaGetOptions<FileSystemStorageOptions>(nameof(YuGetOptions.Storage));
+            services.AddBaGetOptions<MirrorOptions>(nameof(YuGetOptions.Mirror));
+            services.AddBaGetOptions<SearchOptions>(nameof(YuGetOptions.Search));
+            services.AddBaGetOptions<StorageOptions>(nameof(YuGetOptions.Storage));
         }
 
         private static void AddBaGetServices(this IServiceCollection services)
         {
-            services.TryAddSingleton<IFrameworkCompatibilityService, FrameworkCompatibilityService>();
-            services.TryAddSingleton<IPackageDownloadsSource, PackageDownloadsJsonSource>();
+            //services.TryAddSingleton<IFrameworkCompatibilityService, FrameworkCompatibilityService>();
+            //services.TryAddSingleton<IPackageDownloadsSource, PackageDownloadsJsonSource>();
 
-            services.TryAddSingleton<NuGetClient>();
-            services.TryAddSingleton<NullSearchIndexer>();
-            services.TryAddSingleton<NullSearchService>();
-            services.TryAddSingleton<RegistrationBuilder>();
-            services.TryAddSingleton<SystemTime>();
-            services.TryAddSingleton<ValidateStartupOptions>();
+           // services.TryAddSingleton<NuGetClient>();
+            //services.TryAddSingleton<NullSearchIndexer>();
+            ////services.TryAddSingleton<NullSearchService>();
+           // services.TryAddSingleton<RegistrationBuilder>();
+           // services.TryAddSingleton<SystemTime>();
+           // services.TryAddSingleton<ValidateStartupOptions>();
 
-            services.TryAddSingleton(HttpClientFactory);
-            services.TryAddSingleton(NuGetClientFactoryFactory);
+           // services.TryAddSingleton(HttpClientFactory);
+           // services.TryAddSingleton(NuGetClientFactoryFactory);
 
-            services.TryAddScoped<DownloadsImporter>();
+            //services.TryAddScoped<DownloadsImporter>();
 
             services.TryAddTransient<IAuthenticationService, ApiKeyAuthenticationService>();
             services.TryAddTransient<IPackageContentService, DefaultPackageContentService>();
-            services.TryAddTransient<IPackageDeletionService, PackageDeletionService>();
-            services.TryAddTransient<IPackageIndexingService, PackageIndexingService>();
+            //services.TryAddTransient<IPackageDeletionService, PackageDeletionService>();
+            //services.TryAddTransient<IPackageIndexingService, PackageIndexingService>();
             services.TryAddTransient<IPackageMetadataService, DefaultPackageMetadataService>();
-            services.TryAddTransient<IServiceIndexService, BaGetServiceIndex>();
-            services.TryAddTransient<ISymbolIndexingService, SymbolIndexingService>();
+            //services.TryAddTransient<IServiceIndexService, YuGetServiceIndex>();
+            //services.TryAddTransient<ISymbolIndexingService, SymbolIndexingService>();
 
-            services.TryAddTransient<DatabaseSearchService>();
-            services.TryAddTransient<MirrorService>();
-            services.TryAddTransient<MirrorV2Client>();
-            services.TryAddTransient<MirrorV3Client>();
-            services.TryAddTransient<NullMirrorService>();
-            services.TryAddTransient<PackageService>();
+            //services.TryAddTransient<DatabaseSearchService>();
+            //services.TryAddTransient<MirrorService>();
+            //services.TryAddTransient<MirrorV2Client>();
+            //services.TryAddTransient<MirrorV3Client>();
+            //services.TryAddTransient<NullMirrorService>();
+           // services.TryAddTransient<PackageService>();
 
-            services.TryAddTransient(IMirrorServiceFactory);
-            services.TryAddTransient(IMirrorNuGetClientFactory);
+            //services.TryAddTransient(IMirrorServiceFactory);
+            //services.TryAddTransient(IMirrorNuGetClientFactory);
         }
 
         private static void AddFallbackServices(this IServiceCollection services)
@@ -121,49 +121,49 @@ namespace YuGet.Core
             services.TryAddTransient<ISearchService>(provider => provider.GetRequiredService<DatabaseSearchService>());
         }
 
-        private static HttpClient HttpClientFactory(IServiceProvider provider)
-        {
-            var options = provider.GetRequiredService<IOptions<MirrorOptions>>().Value;
+        //private static HttpClient HttpClientFactory(IServiceProvider provider)
+        //{
+        //    var options = provider.GetRequiredService<IOptions<MirrorOptions>>().Value;
 
-            var assembly = Assembly.GetEntryAssembly();
-            var assemblyName = assembly.GetName().Name;
-            var assemblyVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0";
+        //    var assembly = Assembly.GetEntryAssembly();
+        //    var assemblyName = assembly.GetName().Name;
+        //    var assemblyVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0";
 
-            var client = new HttpClient(new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            });
+        //    var client = new HttpClient(new HttpClientHandler
+        //    {
+        //        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+        //    });
 
-            client.DefaultRequestHeaders.Add("User-Agent", $"{assemblyName}/{assemblyVersion}");
-            client.Timeout = TimeSpan.FromSeconds(options.PackageDownloadTimeoutSeconds);
+        //    client.DefaultRequestHeaders.Add("User-Agent", $"{assemblyName}/{assemblyVersion}");
+        //    client.Timeout = TimeSpan.FromSeconds(options.PackageDownloadTimeoutSeconds);
 
-            return client;
-        }
+        //    return client;
+        //}
 
-        private static NuGetClientFactory NuGetClientFactoryFactory(IServiceProvider provider)
-        {
-            var httpClient = provider.GetRequiredService<HttpClient>();
-            var options = provider.GetRequiredService<IOptions<MirrorOptions>>();
+        //private static NuGetClientFactory NuGetClientFactoryFactory(IServiceProvider provider)
+        //{
+        //    var httpClient = provider.GetRequiredService<HttpClient>();
+        //    var options = provider.GetRequiredService<IOptions<MirrorOptions>>();
 
-            return new NuGetClientFactory(
-                httpClient,
-                options.Value.PackageSource.ToString());
-        }
+        //    return new NuGetClientFactory(
+        //        httpClient,
+        //        options.Value.PackageSource.ToString());
+        //}
 
-        private static IMirrorService IMirrorServiceFactory(IServiceProvider provider)
-        {
-            var options = provider.GetRequiredService<IOptionsSnapshot<MirrorOptions>>();
-            var service = options.Value.Enabled ? typeof(MirrorService) : typeof(NullMirrorService);
+        //private static IMirrorService IMirrorServiceFactory(IServiceProvider provider)
+        //{
+        //    var options = provider.GetRequiredService<IOptionsSnapshot<MirrorOptions>>();
+        //    var service = options.Value.Enabled ? typeof(MirrorService) : typeof(NullMirrorService);
             
-            return (IMirrorService)provider.GetRequiredService(service);
-        }
+        //    return (IMirrorService)provider.GetRequiredService(service);
+        //}
 
-        private static IMirrorNuGetClient IMirrorNuGetClientFactory(IServiceProvider provider)
-        {
-            var options = provider.GetRequiredService<IOptionsSnapshot<MirrorOptions>>();
-            var service = options.Value.Legacy ? typeof(MirrorV2Client) : typeof(MirrorV3Client);
+        //private static IMirrorNuGetClient IMirrorNuGetClientFactory(IServiceProvider provider)
+        //{
+        //    var options = provider.GetRequiredService<IOptionsSnapshot<MirrorOptions>>();
+        //    var service = options.Value.Legacy ? typeof(MirrorV2Client) : typeof(MirrorV3Client);
 
-            return (IMirrorNuGetClient)provider.GetRequiredService(service);
-        }
+        //    return (IMirrorNuGetClient)provider.GetRequiredService(service);
+        //}
     }
 }

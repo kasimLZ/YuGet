@@ -9,7 +9,7 @@ namespace YuGet.Core
     {
         private readonly string _apiKey;
 
-        public ApiKeyAuthenticationService(IOptionsSnapshot<BaGetOptions> options)
+        public ApiKeyAuthenticationService(IOptionsSnapshot<YuGetOptions> options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
 

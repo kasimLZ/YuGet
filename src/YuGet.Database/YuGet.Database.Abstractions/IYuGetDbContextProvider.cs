@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using YuGet.Database.Abstractions.Options;
+﻿using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.Abstractions
 {
-	public interface IYuGetDbContextProvider
+	public interface IYuGetDbContextProvider : IModuleProvider
 	{
-		string DatabaseName { get; }
-
-		void SetupDbContext(IServiceCollection services, YuGetDatabaseOption option);
 	}
 }

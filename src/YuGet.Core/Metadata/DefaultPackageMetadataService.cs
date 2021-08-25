@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using YuGet.Core.Models;
 using YuGet.Core.Models.Abstraction;
 using YuGet.Database.Models;
 
 namespace YuGet.Core
 {
-	/// <inheritdoc />
-	public class DefaultPackageMetadataService : IPackageMetadataService
+    /// <inheritdoc />
+    public class DefaultPackageMetadataService : IPackageMetadataService
     {
         private readonly IMirrorService _mirror;
         private readonly IPackageService _packages;
@@ -37,8 +36,7 @@ namespace YuGet.Core
             {
                 return null;
             }
-            //RegistrationIndexResponse
-            //RegistrationIndexResponse
+
             return _builder.BuildIndex(
                 new PackageRegistration(
                     packageId,

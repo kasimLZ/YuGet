@@ -12,7 +12,7 @@ using YuGet.Database.Models;
 
 namespace YuGet.Core
 {
-	public class MirrorService : IMirrorService
+	internal class MirrorService : IMirrorService
     {
         private readonly IPackageService _localPackages;
         private readonly IMirrorNuGetClient _upstreamClient;

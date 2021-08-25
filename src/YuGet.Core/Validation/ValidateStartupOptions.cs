@@ -9,14 +9,14 @@ namespace YuGet.Core
     /// </summary>
     public class ValidateStartupOptions
     {
-        private readonly IOptions<BaGetOptions> _root;
+        private readonly IOptions<YuGetOptions> _root;
         private readonly IOptions<DatabaseOptions> _database;
         private readonly IOptions<StorageOptions> _storage;
         private readonly IOptions<MirrorOptions> _mirror;
         private readonly ILogger<ValidateStartupOptions> _logger;
 
         public ValidateStartupOptions(
-            IOptions<BaGetOptions> root,
+            IOptions<YuGetOptions> root,
             IOptions<DatabaseOptions> database,
             IOptions<StorageOptions> storage,
             IOptions<MirrorOptions> mirror,

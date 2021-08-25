@@ -16,7 +16,7 @@ namespace YuGet.Core
         private readonly IPackageStorageService _storage;
         private readonly ISearchIndexer _search;
         private readonly SystemTime _time;
-        private readonly IOptionsSnapshot<BaGetOptions> _options;
+        private readonly IOptionsSnapshot<YuGetOptions> _options;
         private readonly ILogger<PackageIndexingService> _logger;
 
         public PackageIndexingService(
@@ -24,7 +24,7 @@ namespace YuGet.Core
             IPackageStorageService storage,
             ISearchIndexer search,
             SystemTime time,
-            IOptionsSnapshot<BaGetOptions> options,
+            IOptionsSnapshot<YuGetOptions> options,
             ILogger<PackageIndexingService> logger)
         {
             _packages = packages ?? throw new ArgumentNullException(nameof(packages));

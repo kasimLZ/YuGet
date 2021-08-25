@@ -1,18 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Database.Abstractions.Options;
+using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.MySQL
 {
 	internal sealed class MySQLDbContextProvider : IYuGetDbContextProvider
 	{
-		public string DatabaseName => "MySQL";
+		private const string DatabaseName = "MySQL";
 
-		public void SetupDbContext(IServiceCollection services, YuGetDatabaseOption option)
+		public ModuleProviderType ModuleType => ModuleProviderType.Database;
+
+		public string Sign => DatabaseName;
+
+		public void SetupModule(IServiceCollection services, YuGetOptions options)
 		{
 			services.AddDbContext<IYuGetDbContext, MySQLDbContext>(x => {
-				x.UseMySql(option.ConnectString, ServerVersion.AutoDetect(option.ConnectString));
+				x.UseMySql(options.Database.ConnectionString, ServerVersion.AutoDetect(options.Database.ConnectionString));
 			});
 		}
 	}

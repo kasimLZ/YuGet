@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Database.Abstractions.Options;
+using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.SQLServer
 {
 	internal sealed class SQLServerDbContextProvider : IYuGetDbContextProvider
 	{
-		public string DatabaseName => "Mssql";
+		private const string DatabaseName = "Mssql";
 
-		public void SetupDbContext(IServiceCollection services, YuGetDatabaseOption option)
+		public ModuleProviderType ModuleType => ModuleProviderType.Database;
+
+		public string Sign => DatabaseName;
+
+		public void SetupModule(IServiceCollection services, YuGetOptions options)
 		{
 			services.AddDbContext<IYuGetDbContext, SQLServerDbContext>(x => {
-				x.UseSqlServer(option.ConnectString);
+				x.UseSqlServer(options.Database.ConnectionString);
 			});
-
-			//services.AddDbContext
-
 		}
-
-		delegate T2 sssss<in T1, out T2>(T1 t1);
 	}
 }

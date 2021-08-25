@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YuGet.Core
 {
-    public class BaGetOptions
+    public class YuGetOptions
     {
         /// <summary>
         /// The API Key required to authenticate package

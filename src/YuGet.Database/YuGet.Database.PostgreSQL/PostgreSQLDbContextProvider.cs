@@ -1,18 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YuGet.Core;
 using YuGet.Database.Abstractions;
-using YuGet.Database.Abstractions.Options;
+using YuGet.Protocol.Builder;
 
 namespace YuGet.Database.PostgreSQL
 {
 	internal sealed class PostgreSQLDbContextProvider : IYuGetDbContextProvider
 	{
-		public string DatabaseName => "PostgreSQL";
+		private const string DatabaseName = "PostgreSQL";
 
-		public void SetupDbContext(IServiceCollection services, YuGetDatabaseOption option)
+		public ModuleProviderType ModuleType => ModuleProviderType.Database;
+
+		public string Sign => DatabaseName;
+
+		public void SetupModule(IServiceCollection services, YuGetOptions options)
 		{
 			services.AddDbContext<IYuGetDbContext, PostgreSQLDbContext>(x => {
-				x.UseNpgsql(option.ConnectString);
+				x.UseNpgsql(options.Database.ConnectionString);
 			});
 		}
 	}
