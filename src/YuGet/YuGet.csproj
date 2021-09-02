@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YuGet.Core\YuGet.Core.csproj" />
-    <ProjectReference Include="..\YuGet.Ui\YuGet.Ui.csproj" />
+    <!--<ProjectReference Include="..\YuGet.Hosting\YuGet.Hosting.csproj" />-->
   </ItemGroup>
-
 </Project>

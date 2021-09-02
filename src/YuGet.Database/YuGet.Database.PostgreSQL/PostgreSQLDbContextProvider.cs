@@ -12,7 +12,7 @@ namespace YuGet.Database.PostgreSQL
 
 		public string Sign => DatabaseName;
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
 		{
 			services.AddDbContext<IYuGetDbContext, PostgreSQLDbContext>(x => {
 				x.UseNpgsql(options.Database.ConnectionString);

@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   
@@ -12,14 +13,9 @@
   
   <ItemGroup>
     <ProjectReference Include="..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
-    <ProjectReference Include="..\YuGet.Database\YuGet.Database.MySQL\YuGet.Database.MySQL.csproj" />
-    <ProjectReference Include="..\YuGet.Database\YuGet.Database.PostgreSQL\YuGet.Database.PostgreSQL.csproj" />
     <ProjectReference Include="..\YuGet.Database\YuGet.Database.SQLite\YuGet.Database.SQLite.csproj" />
-    <ProjectReference Include="..\YuGet.Database\YuGet.Database.SQLServer\YuGet.Database.SQLServer.csproj" />
     <ProjectReference Include="..\YuGet.Protocol\YuGet.Protocol.csproj" />
     <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Abstractions\YuGet.Storage.Abstractions.csproj" />
-    <ProjectReference Include="..\YuGet.Storage\Yuget.Storage.Aliyun\Yuget.Storage.Aliyun.csproj" />
-    <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.AWS\YuGet.Storage.AWS.csproj" />
     <ProjectReference Include="..\YuGet.Storage\YuGet.Storage.FileSystem\YuGet.Storage.FileSystem.csproj" />
     <!--<ProjectReference Include="..\YuGet.Storage\YuGet.Storage.Azure\YuGet.Storage.Azure.csproj" />-->
   </ItemGroup>

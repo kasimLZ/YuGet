@@ -22,6 +22,15 @@ namespace YuGet
 
             app.UseMyBlazor();
 
+            app.UseEndpoints(a =>
+            {
+                a.MapControllers();
+                a.MapControllerRoute("default", "/{controller}/{action}", new
+                {
+
+                });
+            });
+
         }
     }
 }

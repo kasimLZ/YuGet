@@ -12,7 +12,7 @@ namespace YuGet.Database.MySQL
 
 		public string Sign => DatabaseName;
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
 		{
 			services.AddDbContext<IYuGetDbContext, MySQLDbContext>(x => {
 				x.UseMySql(options.Database.ConnectionString, ServerVersion.AutoDetect(options.Database.ConnectionString));

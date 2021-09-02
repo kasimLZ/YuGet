@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\YuGet.Database\YuGet.Database.Abstractions\YuGet.Database.Abstractions.csproj" />
+    <ProjectReference Include="..\..\YuGet.Protocol\YuGet.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>

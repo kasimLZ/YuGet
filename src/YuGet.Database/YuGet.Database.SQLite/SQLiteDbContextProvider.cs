@@ -12,7 +12,7 @@ namespace YuGet.Database.SQLite
 
 		public string Sign => DatabaseName;
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration _)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
 		{
 			services.AddDbContext<IYuGetDbContext, SQLiteDbContext>(x => {
 				x.UseSqlite(options.Database.ConnectionString);

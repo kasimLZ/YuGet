@@ -1,3 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -8,15 +12,36 @@ namespace YuGet.Core
 {
     internal static class HttpClientExtensions
     {
-        /// <summary>
-        /// Deserialize JSON content.
-        /// </summary>
-        /// <typeparam name="TResult">The JSON type to deserialize.</typeparam>
-        /// <param name="httpClient">The HTTP client that will perform the request.</param>
-        /// <param name="requestUri">The request URI.</param>
-        /// <param name="cancellationToken">A token to cancel the task.</param>
-        /// <returns>The deserialized JSON content</returns>
-        public static async Task<TResult> GetFromJsonAsync<TResult>(
+		public static IServiceCollection AddHttpClientService(this IServiceCollection services)
+		{
+			services.TryAddSingleton(provider => {
+
+				var options = provider.GetRequiredService<IOptions<MirrorOptions>>().Value;
+
+				var client = new HttpClient(new HttpClientHandler
+				{
+					AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+				});
+
+				client.DefaultRequestHeaders.Add("User-Agent", "Dotnet 5.0/yuget-1.0.0");
+				client.Timeout = TimeSpan.FromSeconds(options.PackageDownloadTimeoutSeconds);
+
+				return client;
+			});
+
+			return services;
+		}
+
+
+		/// <summary>
+		/// Deserialize JSON content.
+		/// </summary>
+		/// <typeparam name="TResult">The JSON type to deserialize.</typeparam>
+		/// <param name="httpClient">The HTTP client that will perform the request.</param>
+		/// <param name="requestUri">The request URI.</param>
+		/// <param name="cancellationToken">A token to cancel the task.</param>
+		/// <returns>The deserialized JSON content</returns>
+		public static async Task<TResult> GetFromJsonAsync<TResult>(
             this HttpClient httpClient,
             string requestUri,
             CancellationToken cancellationToken = default)

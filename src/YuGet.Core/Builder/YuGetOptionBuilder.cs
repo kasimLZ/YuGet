@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using YuGet.Protocol.Builder;
 
 namespace YuGet.Core.Builder
 {
 	internal class YuGetOptionBuilder : IYuGetOptionBuilder
 	{
-		private ModuleProviderType Installed = 0;
+		private readonly Dictionary<ModuleProviderType, Dictionary<string, IModuleProvider>> RegistedModuleProvider = new ();
 
 		public IServiceCollection Service { get; set; }
 
@@ -22,29 +23,63 @@ namespace YuGet.Core.Builder
 				throw new ArgumentException($"Unacceptable module type :{module}");
 			}
 
-			if ((module & Installed) > 0)
+			if (provider == null)
 			{
-				throw new ArgumentException($"The {module} is Installed.");
+				throw new ArgumentNullException(nameof(provider));
 			}
 
-			try
-			{
-				Installed |= module;
-				provider.SetupModule(Service, Options, Configuration);
-			}
-			catch (Exception e)
-			{
-				Installed &= ~module;
-			}
-			
+			this[module, provider.Sign] = provider;
+
 			return this;
 		}
 
 		public IYuGetOptionBuilder AddModuleProvider<TProvider>(ModuleProviderType module)
 			where TProvider : IModuleProvider, new()
 		{
-			AddModuleProvider(module, new TProvider());
-			return this;
+			return AddModuleProvider(module, new TProvider());
+		}
+
+		internal IModuleProvider this[ModuleProviderType module] 
+		{
+			get
+			{
+				var moduleName = module switch
+				{
+					ModuleProviderType.Database => Options.Database.Type,
+					ModuleProviderType.Stroage => Options.Storage.Type,
+					mo
+				}
+			}
+		}
+
+		internal IModuleProvider this[ModuleProviderType module, string moduleName] 
+		{ 
+			get 
+			{ 
+				if (RegistedModuleProvider.TryGetValue(module, out var list))
+				{
+					if (list.TryGetValue(moduleName, out var provider))
+					{
+						return provider;
+					}
+				}
+				return null;
+			}
+
+			private set 
+			{
+				if (!RegistedModuleProvider.TryGetValue(module, out var map))
+				{
+					RegistedModuleProvider.Add(module, map = new());
+				}
+
+				if (map.ContainsKey(moduleName))
+				{
+					throw new Exception($"The module \"{moduleName}\" for {module} is aready installed.");
+				}
+
+				map.Add(moduleName, value);
+			}
 		}
 	}
 }

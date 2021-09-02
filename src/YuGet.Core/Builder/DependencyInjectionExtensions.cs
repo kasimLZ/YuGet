@@ -1,33 +1,51 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using System;
-using System.Net;
-using System.Net.Http;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using YuGet.Core;
 using YuGet.Core.Builder;
 using YuGet.Core.Indexing;
 using YuGet.Core.Mirror;
 using YuGet.Core.Search;
 using YuGet.Database;
+using YuGet.Protocol.Builder;
 using YuGet.Storage;
 
 namespace YuGet
 {
 	public static class DependencyInjectionExtensions
 	{
-		public static IServiceCollection AddYuget(this IServiceCollection services, Action<IYuGetOptionBuilder> optionBuilder)
+		public static IServiceCollection AddYuget(this IServiceCollection services)
 		{
-			
-			using var provider = services.BuildServiceProvider();
+			return services.AddYugetCore(builder => {
+				// Inject Database Provider
+				builder.AddSQLite();
 
+				// Inject Stroage Provider
+				builder.AddFileSystem();
+			});
+		}
+
+		public static IServiceCollection AddYugetCore(this IServiceCollection services, Action<IYuGetOptionBuilder> optionBuilder = null)
+		{
 			var builder = new YuGetOptionBuilder
 			{
 				Service = services,
-				Options = new(),
-				Configuration = provider.GetRequiredService<IConfiguration>()
+				Options = new()
 			};
+
+			using (var provider = services.BuildServiceProvider()) 
+			{
+				builder.Configuration = provider.GetRequiredService<IConfiguration>();
+			}
+
+			if (optionBuilder != null)
+			{
+				optionBuilder.Invoke(builder);
+			}
 
 			builder.Configuration.Bind(builder.Options);
 
@@ -55,45 +73,24 @@ namespace YuGet
 			builder.Service.TryAddTransient<IPackageContentService, DefaultPackageContentService>();
 			builder.Service.TryAddTransient<IPackageMetadataService, DefaultPackageMetadataService>();
 
-			optionBuilder.Invoke(builder);
+			builder.Service.AddSingleton(builder);
+
+			
 
 			return services;
 		}
 
-		private static IServiceCollection AddHttpClientService(this IServiceCollection services)
+
+		public static IApplicationBuilder UseYuGet(this IApplicationBuilder app)
 		{
+			var builder = app.ApplicationServices.GetService<YuGetOptionBuilder>();
 
-			services.TryAddSingleton(provider => {
+			foreach(var module in Enum.GetValues<ModuleProviderType>())
+			{
+				var provider = builder[module, builder.Options.Database.Type];
+			}
 
-				var options = provider.GetRequiredService<IOptions<MirrorOptions>>().Value;
-
-				var client = new HttpClient(new HttpClientHandler
-				{
-					AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-				});
-
-				client.DefaultRequestHeaders.Add("User-Agent", "Dotnet 5.0/yuget-1.0.0");
-				client.Timeout = TimeSpan.FromSeconds(options.PackageDownloadTimeoutSeconds);
-
-				return client;
-			});
-
-
-			return services;
-		}
-
-		private static IServiceCollection AddNuGetClientFactory(this IServiceCollection services)
-		{
-			services.TryAddSingleton(provider => {
-				var httpClient = provider.GetRequiredService<HttpClient>();
-				var options = provider.GetRequiredService<IOptions<MirrorOptions>>();
-
-				return new NuGetClientFactory(
-					httpClient,
-					options.Value.PackageSource.ToString());
-			});
-
-			return services;
+			return builder;
 		}
 	}
 }

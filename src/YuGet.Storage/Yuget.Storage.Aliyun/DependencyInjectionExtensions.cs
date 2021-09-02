@@ -1,6 +1,7 @@
 ﻿using YuGet.Core.Builder;
+using YuGet.Storage.Aliyun;
 
-namespace YuGet.Storage.Aliyun
+namespace YuGet.Storage
 {
 	public static class DependencyInjectionExtensions
 	{

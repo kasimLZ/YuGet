@@ -1,9 +1,20 @@
-﻿namespace YuGet.Protocol.Builder
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace YuGet.Protocol.Builder
 {
 	public enum ModuleProviderType
 	{
-		Database = 0x1,
-		Stroage = 0x2,
-		Authentication = 0x4,
+		[Required]
+		Database = 1,
+
+		[Required]
+		Stroage = 2,
+
+		[Required]
+		Authentication = 3,
+
+		Host = 4,
+		
+		UI = 5,
 	}
 }

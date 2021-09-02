@@ -1,6 +1,7 @@
 ﻿using YuGet.Core.Builder;
+using YuGet.Storage.AWS;
 
-namespace YuGet.Storage.AWS
+namespace YuGet.Storage
 {
 	public static class DependencyInjectionExtensions
 	{

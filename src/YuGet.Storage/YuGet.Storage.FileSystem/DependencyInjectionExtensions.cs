@@ -1,6 +1,7 @@
 ﻿using YuGet.Core.Builder;
+using YuGet.Storage.FileSystem;
 
-namespace YuGet.Storage.FileSystem
+namespace YuGet.Storage
 {
 	public static class DependencyInjectionExtensions
 	{

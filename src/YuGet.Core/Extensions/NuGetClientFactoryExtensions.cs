@@ -1,10 +1,28 @@
 using YuGet.Core.Catalog;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http;
+using Microsoft.Extensions.Options;
 
 namespace YuGet.Core
 {
-    public static class NuGetClientFactoryExtensions
+    internal static class NuGetClientFactoryExtensions
     {
+        public static IServiceCollection AddNuGetClientFactory(this IServiceCollection services)
+        {
+            services.TryAddSingleton(provider => {
+                var httpClient = provider.GetRequiredService<HttpClient>();
+                var options = provider.GetRequiredService<IOptions<MirrorOptions>>();
+
+                return new NuGetClientFactory(
+                    httpClient,
+                    options.Value.PackageSource.ToString());
+            });
+
+            return services;
+        }
+
         /// <summary>
         /// Create a new <see cref="CatalogProcessor"/> to discover and download catalog leafs.
         /// Leafs are processed by the <see cref="ICatalogLeafProcessor"/>.
