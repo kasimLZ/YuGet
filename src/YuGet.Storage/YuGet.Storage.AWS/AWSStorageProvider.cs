@@ -17,7 +17,7 @@ namespace YuGet.Storage.AWS
 	{
 		public string Sign => "AWS";
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
 		{
 			services.Configure<S3StorageOptions>(configuration.GetSection(nameof(options.Storage)));
 

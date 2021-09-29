@@ -1,20 +1,37 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Reflection;
 
 namespace YuGet.Protocol.Builder
 {
 	public enum ModuleProviderType
 	{
-		[Required]
+		[RequiredType]
 		Database = 1,
 
-		[Required]
+		[RequiredType]
 		Stroage = 2,
 
-		[Required]
 		Authentication = 3,
 
+		[MultipleType]
 		Host = 4,
-		
-		UI = 5,
+	}
+
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	internal class RequiredType : Attribute { }
+
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	internal class MultipleType : Attribute { }
+
+	public static class ModuleProviderTypeExtensions 
+	{
+		public static bool IsRequired(this ModuleProviderType module) => module.HasAttribute<RequiredType>();
+
+		public static bool AllowMultiple(this ModuleProviderType module) => module.HasAttribute<MultipleType>();
+
+		private static bool HasAttribute<TAttribute>(this ModuleProviderType module) where TAttribute : Attribute 
+		{
+			return module.GetType().GetCustomAttribute<TAttribute>() == null;
+		}
 	}
 }

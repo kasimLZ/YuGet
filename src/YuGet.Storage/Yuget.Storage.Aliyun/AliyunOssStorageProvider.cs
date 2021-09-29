@@ -12,7 +12,7 @@ namespace YuGet.Storage.Aliyun
 	{
 		public string Sign => "AliyunOss";
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
 		{
 			services.Configure<AliyunStorageOptions>(configuration.GetSection(nameof(options.Storage)));
 

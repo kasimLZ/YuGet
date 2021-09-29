@@ -10,7 +10,7 @@ namespace YuGet.Storage.FileSystem
 	{
 		public string Sign => "FileSystem";
 
-		public void SetupModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
+		public void RegistModule(IServiceCollection services, YuGetOptions options, IConfiguration configuration)
 		{
 			services.Configure<FileSystemStorageOptions>(configuration.GetSection(nameof(options.Storage)));
 			services.TryAddTransient<IStorageService, FileStorageService>();

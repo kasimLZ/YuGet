@@ -3,8 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+using System.Linq;
 using YuGet.Core;
 using YuGet.Core.Builder;
 using YuGet.Core.Indexing;
@@ -75,8 +74,6 @@ namespace YuGet
 
 			builder.Service.AddSingleton(builder);
 
-			
-
 			return services;
 		}
 
@@ -87,10 +84,24 @@ namespace YuGet
 
 			foreach(var module in Enum.GetValues<ModuleProviderType>())
 			{
-				var provider = builder[module, builder.Options.Database.Type];
+				var names = module.AllowMultiple() ? builder[module].Split(',') : new[] { builder[module] };
+
+				names = names.Where(a => !string.IsNullOrWhiteSpace(a)).ToArray();
+
+				if (names.Length == 0 && module.IsRequired()) throw new NullReferenceException($"Can not find Module {module}");
+				
+				var providers = names.Select(a => builder[module, a]).ToArray();
+
+				foreach (var provider in providers)
+				{
+					if (provider is IHostModuleProvider hostModule)
+					{
+						hostModule.ConfigModule(app);
+					}
+				}
 			}
 
-			return builder;
+			return app;
 		}
 	}
 }

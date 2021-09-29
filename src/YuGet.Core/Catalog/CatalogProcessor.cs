@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using YuGet.Core.Models;
 using Microsoft.Extensions.Logging;
 using YuGet.Core.Models.Abstraction;
+using System.Linq.Expressions;
 
 namespace YuGet.Core.Catalog
 {
@@ -58,7 +59,6 @@ namespace YuGet.Core.Catalog
                 "Using time bounds {min:O} (exclusive) to {max:O} (inclusive).",
                 minCommitTimestamp,
                 _options.MaxCommitTimestamp);
-
             return await ProcessIndexAsync(minCommitTimestamp, cancellationToken);
         }
 

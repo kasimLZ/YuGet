@@ -8,7 +8,7 @@ namespace YuGet.Core.Builder
 {
 	internal class YuGetOptionBuilder : IYuGetOptionBuilder
 	{
-		private readonly Dictionary<ModuleProviderType, Dictionary<string, IModuleProvider>> RegistedModuleProvider = new ();
+		private readonly Dictionary<ModuleProviderType, Dictionary<string, IModuleProvider>> RegistedModuleProvider = new();
 
 		public IServiceCollection Service { get; set; }
 
@@ -39,23 +39,22 @@ namespace YuGet.Core.Builder
 			return AddModuleProvider(module, new TProvider());
 		}
 
-		internal IModuleProvider this[ModuleProviderType module] 
+		internal string this[ModuleProviderType module]
+		{
+			get => module switch
+			{
+				ModuleProviderType.Database => Options.Database.Type,
+				ModuleProviderType.Stroage => Options.Storage.Type,
+				ModuleProviderType.Authentication => "None",
+				ModuleProviderType.Host => "API,UI",
+				_ => null,
+			};
+		}
+
+		internal IModuleProvider this[ModuleProviderType module, string moduleName]
 		{
 			get
 			{
-				var moduleName = module switch
-				{
-					ModuleProviderType.Database => Options.Database.Type,
-					ModuleProviderType.Stroage => Options.Storage.Type,
-					mo
-				}
-			}
-		}
-
-		internal IModuleProvider this[ModuleProviderType module, string moduleName] 
-		{ 
-			get 
-			{ 
 				if (RegistedModuleProvider.TryGetValue(module, out var list))
 				{
 					if (list.TryGetValue(moduleName, out var provider))
@@ -66,7 +65,7 @@ namespace YuGet.Core.Builder
 				return null;
 			}
 
-			private set 
+			private set
 			{
 				if (!RegistedModuleProvider.TryGetValue(module, out var map))
 				{

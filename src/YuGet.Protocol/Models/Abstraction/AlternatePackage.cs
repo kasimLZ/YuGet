@@ -26,5 +26,6 @@ namespace YuGet.Core.Models.Abstraction
         /// </summary>
         [JsonPropertyName("range")]
         public virtual string Range { get; set; }
+        
     }
 }
